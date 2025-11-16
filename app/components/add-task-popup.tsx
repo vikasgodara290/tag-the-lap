@@ -2,13 +2,13 @@ import Button from "./button";
 
 export default function AddTaskPopup(){
     return (
-        <div className="border border-black w-56 h-48 grid place-items-center">
+        <div className="border border-black w-96 h-72 grid place-items-center">
             <div className="w-full flex justify-end">
                 <div className="border border-black w-fit px-1 items-end mx-1">
                     close
                 </div>
             </div>
-            <div className="">
+            {/* <div className="">
                 <textarea name="" id="" className="border border-black w-52"></textarea>
             </div>
             <div className="">
@@ -21,7 +21,7 @@ export default function AddTaskPopup(){
             </div>
             <div className="">
                 <Button innerText={'Add'}/>
-            </div>
+            </div> */}
         </div>
     )
 }
