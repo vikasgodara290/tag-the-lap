@@ -1,27 +1,36 @@
-import Button from "./button";
+'use client'
 
-export default function AddTaskPopup(){
+import { Dispatch, SetStateAction } from "react";
+import Button from "./button";
+import Dropdown from "./dropdown";
+import Textarea from "./textarea";
+
+interface AddTaskPopupProps{
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+}
+
+export default function AddTaskPopup({setIsOpen}: AddTaskPopupProps){
+
+    const handlePopupClose = () => {
+        setIsOpen(false);
+    }
+
     return (
-        <div className="border border-black w-96 h-72 grid place-items-center">
+        <div className="border border-black w-96 h-72 place-items-center grid">
             <div className="w-full flex justify-end">
-                <div className="border border-black w-fit px-1 items-end mx-1">
-                    close
+                <div className="w-fit px-1 items-end mx-1">
+                    <Button innerText={'Close'} onclick={handlePopupClose}/>
                 </div>
             </div>
-            {/* <div className="">
-                <textarea name="" id="" className="border border-black w-52"></textarea>
+            <div className="">
+                <Textarea/>
             </div>
             <div className="">
-                <select name="" id="">
-                    <option value="">Entertainment</option>
-                    <option value="">Job</option>
-                    <option value="">Study</option>
-                    <option value="">Health</option>
-                </select>
+                <Dropdown/>
             </div>
             <div className="">
                 <Button innerText={'Add'}/>
-            </div> */}
+            </div>
         </div>
     )
 }
