@@ -14,7 +14,7 @@ export default function Clock(){
     },[])
 
     return(
-        <div className="font-black text-9xl">
+        <div className="font-black text-9xl" suppressContentEditableWarning={true} >
             {time}
         </div>
     )

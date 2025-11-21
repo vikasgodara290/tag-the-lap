@@ -2,10 +2,9 @@
 
 import Button from "./button";
 import AddTaskPopup from "./add-task-popup";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export default function PopupSection(){
-    const addTaskPopupRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const handleAddTask = () => {
