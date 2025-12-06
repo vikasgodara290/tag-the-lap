@@ -11,29 +11,31 @@ interface TableProps<T extends object>{
 
 export default function Table<T extends object>({columns, rows}: TableProps<T>){
     return(
-        <div className="border-t border-l border-black w-96">
+        <div className="m-5">
 
-            <div className="">
-                {
-                    columns.map(c => (
-                        <span className="border-b border-r border-black">{c.label}</span>
-                    ))
-                }
-            </div>
+            <table className="border border-black w-96">
+            {
+                <tr>
+                    {
+                        columns.map(c => (
+                            <th className="border border-black">{c.label}</th>
+                        ))
+                    }
+                </tr>
+            }
+            {
 
-            <div className="">
-                {
-                    rows.map(r => (
-                        <div className="">
-                            {
-                                Object.values(r).map(v => (
-                                    <span className="border-b border-r border-black">{v}</span>
-                                ))
-                            }
-                        </div>
-                    ))
-                }
-            </div>
+                rows.map(r => (
+                    <tr>
+                        {
+                            Object.values(r).map(v => (
+                                <td className="border border-black pl-1">{v}</td>
+                            ))
+                        }
+                    </tr>
+                ))
+            }
+            </table>
         </div>
     )
 }

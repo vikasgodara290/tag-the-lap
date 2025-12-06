@@ -1,6 +1,6 @@
 'use client'
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import Button from "./button";
 import Dropdown from "./dropdown";
 import Textarea from "./textarea";
@@ -10,8 +10,17 @@ interface AddTaskPopupProps{
 }
 
 export default function AddTaskPopup({setIsOpen}: AddTaskPopupProps){
+    const taskRef = useRef<HTMLTextAreaElement>(null);
+    const categoryRef = useRef<HTMLSelectElement>(null);
 
     const handlePopupClose = () => {
+        setIsOpen(false);
+    }
+
+    const handleAddTask = () => {
+        const task = taskRef.current?.value;
+        const category = categoryRef.current?.value;
+        console.log(task, category)
         setIsOpen(false);
     }
 
@@ -23,13 +32,13 @@ export default function AddTaskPopup({setIsOpen}: AddTaskPopupProps){
                 </div>
             </div>
             <div className="">
-                <Textarea/>
+                <Textarea ref={taskRef}/>
             </div>
             <div className="">
-                <Dropdown/>
+                <Dropdown ref={categoryRef}/>
             </div>
             <div className="">
-                <Button innerText={'Add'}/>
+                <Button innerText={'Add'} onclick={handleAddTask}/>
             </div>
         </div>
     )
