@@ -1,9 +1,10 @@
 'use client'
 
-import { Dispatch, SetStateAction, useRef } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import Button from "./button";
 import Dropdown from "./dropdown";
 import Textarea from "./textarea";
+import axios from "axios";
 
 interface AddTaskPopupProps{
     setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -12,15 +13,24 @@ interface AddTaskPopupProps{
 export default function AddTaskPopup({setIsOpen}: AddTaskPopupProps){
     const taskRef = useRef<HTMLTextAreaElement>(null);
     const categoryRef = useRef<HTMLSelectElement>(null);
+    const [task, setTask] = useState<{task: String; category: String; startTime: Date} | null>(null);
 
     const handlePopupClose = () => {
         setIsOpen(false);
     }
 
-    const handleAddTask = () => {
+    const handleAddTask = async () => {
         const task = taskRef.current?.value;
         const category = categoryRef.current?.value;
-        console.log(task, category)
+        const startTime = new Date();
+        console.log(task, category, startTime);
+
+        axios.post('/api/task', {
+            task,
+            category,
+            startTime
+        })
+
         setIsOpen(false);
     }
 

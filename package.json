@@ -2,7 +2,7 @@
   "name": "tag-the-lap",
   "version": "0.1.0",
   "private": true,
-  "type" : "module",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.0",
     "@prisma/client": "^7.0.0",
+    "axios": "^1.13.2",
     "dotenv": "^17.2.3",
     "next": "16.0.1",
     "pg": "^8.16.3",

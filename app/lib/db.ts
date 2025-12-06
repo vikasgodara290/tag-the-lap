@@ -1,5 +1,5 @@
 // src/lib/db.ts
-import { PrismaClient } from '@prisma/client/extension';
+import { PrismaClient } from '../generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 // You can either use a connection string:

@@ -4,11 +4,18 @@ import PopupSection from "./components/popup-section";
 import Table from "./components/table";
 
 interface TableType{
+  id:number,
   task: string,
-  category: string
+  category: string,
+  startTime: Date,
+  createdAt: Date
 }
 
-const Columns =[
+const Columns : {key: string, label: string}[] = [
+  {
+    key: "SN",
+    label: "SN"
+  },
   {
     key : "task",
     label : "Task"
@@ -16,25 +23,33 @@ const Columns =[
   {
     key : "category",
     label : "Category"
-  }
-]
-const Rows: TableType[] = [
-  {
-    task : "study",
-    category : "wealth"
   },
   {
-    task : "exercise",
-    category : "health"
+    key : "startTime",
+    label : "Start Time"
+  },
+  {
+    key : "endTime",
+    label : "End Time"
   }
 ]
 
+
 export default async function Home() {
+  const res = await fetch('http://localhost:3000/api/task', {
+    cache:'no-store'
+  });
+
+  const data = await res.json();
+  const tasks : TableType[] = data.tasks ?? [];
+
+  console.log(tasks)
+
   return (
     <div className="">
       <Clock/>
       <PopupSection/>
-      <Table columns={Columns} rows={Rows} />
+      <Table columns={Columns} rows={tasks} />
     </div>
   );
 }
