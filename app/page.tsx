@@ -13,10 +13,6 @@ interface TableType{
 
 const Columns : {key: string, label: string}[] = [
   {
-    key: "SN",
-    label: "SN"
-  },
-  {
     key : "task",
     label : "Task"
   },
@@ -31,6 +27,10 @@ const Columns : {key: string, label: string}[] = [
   {
     key : "endTime",
     label : "End Time"
+  },
+  {
+    key : "duration",
+    label : "Duration"
   }
 ]
 
@@ -43,13 +43,31 @@ export default async function Home() {
   const data = await res.json();
   const tasks : TableType[] = data.tasks ?? [];
 
-  console.log(tasks)
+  const formattedTasks = tasks.map(task => ({
+    ...task,
+    startTime: formatDate( new Date(task.startTime) ),
+    createdAt: formatDate( new Date(task.createdAt) ),
+    duration: new Date( task.startTime ).getHours() - new Date( task.createdAt ).getHours()
+  }))
 
   return (
     <div className="">
       <Clock/>
       <PopupSection/>
-      <Table columns={Columns} rows={tasks} />
+      <Table columns={Columns} rows={formattedTasks} />
     </div>
   );
+}
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  }).format(date)
+    .replace(" ", "-")
+    .replace(",", "");
 }

@@ -6,7 +6,11 @@ export async function GET(req : NextRequest){
     const id = searchParams.get('id');
 
     if(!id){
-        const tasks = await prisma.task.findMany()
+        const tasks = await prisma.task.findMany({
+            orderBy: {
+                createdAt : 'desc'
+            }
+        })
         return NextResponse.json({
             tasks
         })

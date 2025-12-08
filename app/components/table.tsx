@@ -11,14 +11,14 @@ interface TableProps<T extends object>{
 
 export default function Table<T extends object>({columns, rows}: TableProps<T>){
     return(
-        <div className="m-5">
+        <div className="mt-5">
 
-            <table className="border border-black w-96">
+            <table className="border border-black w-11/12 mx-auto">
             {
                 <tr>
                     {
                         columns.map(c => (
-                            <th className="border border-black">{c.label}</th>
+                            <th key={c.key} className="border border-black">{c.label}</th>
                         ))
                     }
                 </tr>
@@ -28,9 +28,12 @@ export default function Table<T extends object>({columns, rows}: TableProps<T>){
                 rows.map(r => (
                     <tr>
                         {
-                            Object.values(r).map(v => (
-                                <td className="border border-black pl-1">{v}</td>
-                            ))
+                            Object.values(r).map((v, index) => {
+                                if(index == 0){
+                                    return <td className="hidden border border-black pl-1">{v}</td>
+                                }
+                                return <td className="border border-black pl-1">{v}</td>
+                            })
                         }
                     </tr>
                 ))
