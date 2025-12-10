@@ -29,7 +29,7 @@ export default function Table<T extends object>({columns, rows}: TableProps<T>){
                     <tr>
                         {
                             Object.values(r).map((v, index) => {
-                                if(index == 0){
+                                if(index == 0){ 
                                     return <td className="hidden border border-black pl-1">{v}</td>
                                 }
                                 return <td className="border border-black pl-1">{v}</td>
