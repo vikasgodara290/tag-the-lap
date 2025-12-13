@@ -21,3 +21,9 @@ model Task {
   startTime     DateTime
   createdAt     DateTime @default(now())
 }
+
+model RecordTime {
+  userId      Int      @id @default(autoincrement())
+  startTime   DateTime
+  stopTime    DateTime
+}

@@ -12,7 +12,7 @@ export default function PopupSection(){
     }
 
     const handleStart = () => {
-
+        
     }
 
     const handleStop = () => {

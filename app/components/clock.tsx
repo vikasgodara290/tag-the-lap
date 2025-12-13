@@ -16,7 +16,7 @@ export default function Clock(){
 
     return(
         <div className="font-black text-9xl" suppressContentEditableWarning={true} >
-            <span className="w">{time}</span>
+            <span className="">{time}</span>
             <span className="ml-8 text-4xl">{currDate}</span>
         </div>
     )
