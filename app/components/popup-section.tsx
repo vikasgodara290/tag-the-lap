@@ -11,9 +11,19 @@ export default function PopupSection(){
         setIsOpen(true);
     }
 
+    const handleStart = () => {
+
+    }
+
+    const handleStop = () => {
+        setIsOpen(true);
+    }
+
     return(
-        <div className="">
+        <div className="flex">
             <Button innerText={'Add Task'} onclick={handleAddTask}/>
+            <Button innerText={'Start Recording'} onclick={handleStart}/>
+            <Button innerText={'Stop Recording'} onclick={handleStop}/>
             {isOpen && 
                 <div className="absolute left-[50%] top-[50%] transform translate-[-50%]">
                     <AddTaskPopup setIsOpen={setIsOpen}/>
