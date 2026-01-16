@@ -12,4 +12,4 @@ export default function Textarea({ref}: TextareaProps){
             <textarea ref={ref} name="" id="" className="border border-black w-52"></textarea>
         </div>
     )
-}
+} 
