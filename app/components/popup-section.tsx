@@ -2,7 +2,7 @@
 
 import Button from "./button";
 import AddTaskPopup from "./add-task-popup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonWithIcon from "./button-with-icon";
 import Stopwatch from "./stopwatch";
 
@@ -17,6 +17,15 @@ export default function PopupSection(){
     const handleStart = () => {
         setIsStarted(!isStarted);
     }
+    
+    useEffect(() => {
+        setIsStarted(localStorage.getItem('isWatchRunning') === 'true'? true : false);
+    },[]);
+
+    useEffect(() => {
+        localStorage.setItem('isWatchRunning', isStarted? 'true': 'false');
+    },[isStarted]);
+
 
     return(
         <div className="flex">
