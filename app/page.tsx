@@ -52,9 +52,9 @@ export default async function Home() {
 
   return (
     <div className="">
-      <Clock/>
+      {/* <Clock/> */}
       <PopupSection/>
-      <Table columns={Columns} rows={formattedTasks} />
+      {/* <Table columns={Columns} rows={formattedTasks} /> */}
     </div>
   );
 }
