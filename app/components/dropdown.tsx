@@ -8,7 +8,7 @@ interface DropdownProps{
 export default function Dropdown({ref}: DropdownProps){
     return(
         <div className="">
-            <select ref={ref} name="" id="">
+            <select disabled ref={ref} name="" id="">
                 <option value="Entertainment">Entertainment</option>
                 <option value="Job">Job</option>
                 <option value="Study">Study</option>
