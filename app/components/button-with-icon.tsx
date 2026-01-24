@@ -6,35 +6,35 @@ interface ButtonWithIconProps{
     innerText : string,
     isRoundCorner: boolean,
     iconSize?: number | string | undefined,
-    fontSize?: number,
+    fontSize?: string,
     buttonSize?: string,
     onclick? : () => void,
 }
 
-export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSize = 24, fontSize = 12, buttonSize = 'mid', onclick} : ButtonWithIconProps){
+export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSize = 18, fontSize = 'text-base', buttonSize = 'mid', onclick} : ButtonWithIconProps){
     let sizeStyle = 'p-2';
     switch(buttonSize){
         case 'sm': {
             sizeStyle = 'p-1';
-            iconSize = 16;
-            fontSize = 10;
+            iconSize = 12;
+            fontSize = 'text-xs';
         }
         break;
         case 'lg': {
             sizeStyle = 'p-3';
-            iconSize = 32;
-            fontSize = 24;
+            iconSize = 24;
+            fontSize = 'text-2xl';
         }
         break;
     }
         
     return (
         <div className="">
-            <button className={`flex flex-row justify-center gap-1 items-center border-2 border-black ${sizeStyle} ${isRoundCorner?'rounded-xl':''}`} onClick={onclick} >
+            <button className={`flex flex-row justify-center gap-2 items-center border-2 border-black ${sizeStyle} ${isRoundCorner?'rounded-sm':''}`} onClick={onclick} >
                 <span className="">
-                    <Play size={iconSize}/>
+                    <Play size={iconSize} className="relative bottom-px"/>
                 </span>
-                <span className={`text-[${fontSize}px]`}>
+                <span className={`${fontSize}`}>
                     {innerText}
                 </span>
             </button>

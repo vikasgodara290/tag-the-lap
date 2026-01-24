@@ -1,5 +1,6 @@
 'use client'
 
+import { Clock9 } from "lucide-react";
 import { useEffect, useState } from "react"
 
 interface StopwatchProps{
@@ -29,10 +30,11 @@ export default function Stopwatch({isStarted}: StopwatchProps) {
     let currSeconds = seconds % 60;
 
     return(
-        <div className="">
-            {
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}` 
-            }
+        <div className="flex items-center justify-center gap-2">
+            <Clock9 size={18} className="relative bottom-px"/>
+            <span className="">
+                { `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}` }
+            </span>
         </div>
     )
 }
