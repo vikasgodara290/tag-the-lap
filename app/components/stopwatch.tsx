@@ -32,7 +32,7 @@ export default function Stopwatch({isStarted}: StopwatchProps) {
     return(
         <div className="flex items-center justify-center gap-2">
             <Clock9 size={18} className="relative bottom-px"/>
-            <span className="">
+            <span className="select-none">
                 { `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}` }
             </span>
         </div>

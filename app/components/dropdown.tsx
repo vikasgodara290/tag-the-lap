@@ -34,7 +34,7 @@ export default function Dropdown({ref}: DropdownProps){
             </div>
             {
                 isDropdownOpen &&
-                <div className="border-2 mt-1 rounded-sm absolute w-36 hover:cursor-pointer ">
+                <div className="border-2 mt-1 rounded-sm absolute w-36 hover:cursor-pointer bg-white">
                     <div className="p-2 hover:bg-gray-400" onClick={e => handleSelectClick(e)}>Entertainment</div>
                     <div className="p-2 hover:bg-gray-400" onClick={e => handleSelectClick(e)}>Job</div>
                     <div className="p-2 hover:bg-gray-400" onClick={e => handleSelectClick(e)}>Study</div>

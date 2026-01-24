@@ -33,10 +33,9 @@ export default function MainBar(){
     },[isStarted]);
 
     return(
-        <div className="flex justify-between items-center gap-3 border w-1/2 p-3 rounded-sm m-5">
+        <div className="flex justify-between items-center gap-3 border w-8/12 p-6 rounded-sm m-5 mx-auto">
             <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef}/>
             <span className="flex items-center gap-3">
-                <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <Dropdown ref={categoryRef}/>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <Stopwatch isStarted={isStarted}/>

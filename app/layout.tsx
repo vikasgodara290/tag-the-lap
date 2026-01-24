@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-roboto antialiased`}
+        className={`font-roboto antialiased select-none`}
       >
         {children}
       </body>
