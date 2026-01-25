@@ -1,10 +1,16 @@
 import { Ellipsis } from "lucide-react";
+import CategoryTag from "./category-tag";
 
 export default function Task() {
     return(
         <div className="h-16 flex items-center justify-between p-6 border-t">
-            <div className="flex-1">
-                I am building log the day application.
+            <div className="flex-1 flex ">
+                <span className="relative top-px">
+                    I am building log the day application.
+                </span>
+                <span>
+                    <CategoryTag category="Study"/>
+                </span>
             </div>
             <div className="flex items-center justify-center">
                 <div className="mx-2">

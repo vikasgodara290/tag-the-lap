@@ -9,11 +9,9 @@ export default function TaskList() {
         setIsListOpen(prev => !prev);
     }
 
-    const arr = [1,2,3,4,5]
-
     return(
         <div className="border rounded-sm w-8/12 m-5 mx-auto">
-            <div className="h-16 flex justify-between items-center p-6 bg-gray-50 hover:cursor-pointer" onClick={handleListCollapseClick}>
+            <div className="h-16 rounded-sm flex justify-between items-center p-6 bg-gray-50 hover:cursor-pointer" onClick={handleListCollapseClick}>
                 <div className="flex-1">
                     Today, 24 Jan 2026
                 </div>
