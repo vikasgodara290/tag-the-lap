@@ -19,6 +19,7 @@ model Task {
   task          String   
   category      String
   startTime     DateTime
+  endTime       DateTime?
   createdAt     DateTime @default(now())
 }
 

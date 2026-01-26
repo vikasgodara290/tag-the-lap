@@ -1,36 +1,42 @@
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import ButtonWithIcon from "./button-with-icon";
 import Stopwatch from "./stopwatch";
 import Input from "./input";
 import Dropdown from "./dropdown";
 import EditIcon from "./edit-icon";
 import axios from "axios";
+import { Ban, LucideProps, Play } from "lucide-react";
 
 export default function MainBar(){
     const [isStarted, setIsStarted] = useState<boolean>(false);
-    const categoryRef = useRef<HTMLSelectElement>(null);
+    const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLInputElement>(null);
 
     const handleStart = () => {
         const task = taskRef.current?.value;
-        const category = categoryRef.current?.value;
+        const category = categoryRef.current?.textContent.trim();
         const startTime = new Date();
+        const endTime = null;
+
         axios.post('http://localhost:3000/api/task',{
             task, 
             category, 
-            startTime
+            startTime,
+            endTime
         })
 
-        setIsStarted(!isStarted);
+        setIsStarted(prev => !prev);
     }
-    
-    useEffect(() => {
-        setIsStarted(localStorage.getItem('isWatchRunning') === 'true'? true : false);
-    },[]);
 
-    useEffect(() => {
-        localStorage.setItem('isWatchRunning', isStarted? 'true': 'false');
-    },[isStarted]);
+    let icon : ReactElement<LucideProps>;
+    let startBtnText : string = 'Start';
+    if(!isStarted){
+        icon = <Play/>
+    }
+    else{
+        icon = <Ban/>
+        startBtnText=' Stop'
+    }
 
     return(
         <div className="flex justify-between items-center gap-3 border w-8/12 p-6 rounded-sm m-5 mx-auto">
@@ -40,7 +46,7 @@ export default function MainBar(){
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <Stopwatch isStarted={isStarted}/>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
-                <ButtonWithIcon innerText={'Start'} isRoundCorner={true} buttonSize="mid" onclick={handleStart}/>
+                <ButtonWithIcon innerText={startBtnText} isRoundCorner={true} buttonSize="mid" onclick={handleStart} icon={icon}/>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <EditIcon/>
             </span>

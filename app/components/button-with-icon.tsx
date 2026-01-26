@@ -1,8 +1,10 @@
 'use client'
 
-import { Play } from "lucide-react"
+import { LucideProps } from "lucide-react"
+import { cloneElement, ReactElement } from "react";
 
 interface ButtonWithIconProps{
+    icon: ReactElement<LucideProps>
     innerText : string,
     isRoundCorner: boolean,
     iconSize?: number | string | undefined,
@@ -11,7 +13,7 @@ interface ButtonWithIconProps{
     onclick? : () => void,
 }
 
-export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSize = 18, fontSize = 'text-base', buttonSize = 'mid', onclick} : ButtonWithIconProps){
+export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSize = 18, fontSize = 'text-base', buttonSize = 'mid', onclick, icon} : ButtonWithIconProps){
     let sizeStyle = 'p-2';
     switch(buttonSize){
         case 'sm': {
@@ -30,9 +32,12 @@ export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSiz
         
     return (
         <div className="">
-            <button className={`flex flex-row justify-center gap-2 items-center border-2 border-black ${sizeStyle} ${isRoundCorner?'rounded-sm':''}`} onClick={onclick} >
+            <button className={`w-20 flex flex-row justify-start gap-2 items-center border-2 border-black ${sizeStyle} ${isRoundCorner?'rounded-sm':''}`} onClick={onclick} >
                 <span className="">
-                    <Play size={iconSize} className="relative bottom-px"/>
+                    {cloneElement(icon, {
+                        size: iconSize,
+                        className: "relative bottom-px"
+                    })}
                 </span>
                 <span className={`${fontSize}`}>
                     {innerText}

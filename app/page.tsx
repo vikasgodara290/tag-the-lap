@@ -8,6 +8,7 @@ interface TableType{
   task: string,
   category: string,
   startTime: Date,
+  endTime: Date,
   createdAt: Date
 }
 
@@ -40,26 +41,29 @@ export default async function Home() {
     cache:'no-store'
   });
 
+  console.log(res)
+
   const data = await res.json();
   const tasks : TableType[] = data.tasks ?? [];
 
   const formattedTasks = tasks.map(task => ({
     ...task,
     startTime: formatDate( new Date(task.startTime) ),
-    createdAt: formatDate( new Date(task.createdAt) ),
-    duration: new Date( task.startTime ).getHours() - new Date( task.createdAt ).getHours()
+    endTime: formatDate( new Date(task.endTime) ),
+    duration: new Date( task.startTime ).getHours() - new Date( task.endTime ).getHours()
   }))
 
   return (
     <div className="">
       {/* <Clock/> */}
       <PopupSection/>
-      {/* <Table columns={Columns} rows={formattedTasks} /> */}
+      <Table columns={Columns} rows={formattedTasks} />
     </div>
   );
 }
 
 function formatDate(date: Date) {
+  console.log(date)
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
     month: "short",

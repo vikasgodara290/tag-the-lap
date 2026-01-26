@@ -30,10 +30,10 @@ export async function GET(req : NextRequest){
 
 export async function POST(req : NextRequest){
     const body = await req.json();
-    const {task, category, startTime} = body;
+    const {task, category, startTime, endTime} = body;
 
     const taskDb = await prisma.task.create({
-        data: {task, category, startTime}
+        data: {task, category, startTime, endTime}
     });
 
     return NextResponse.json(taskDb);

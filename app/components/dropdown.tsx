@@ -3,7 +3,7 @@ import { ChevronsDownUp, ChevronsUpDown } from "lucide-react"
 import React, { useState } from "react"
 
 interface DropdownProps{
-    ref : React.Ref<HTMLSelectElement>
+    ref : React.Ref<HTMLSpanElement>
 }
 
 export default function Dropdown({ref}: DropdownProps){
@@ -27,7 +27,9 @@ export default function Dropdown({ref}: DropdownProps){
     return(
         <div tabIndex={0} className="select-none" onBlur={handleBlur}>
             <div className="border-2 rounded-sm p-2 flex items-center justify-between w-36 hover:cursor-pointer" onClick={handleClick}>
-                {selectedCategory} 
+                <span ref={ref}>
+                    {selectedCategory} 
+                </span>
                 {
                     !isDropdownOpen ? <ChevronsUpDown size={18}/>:<ChevronsDownUp size={18}/>
                 }
