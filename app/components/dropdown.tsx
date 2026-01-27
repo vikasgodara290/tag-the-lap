@@ -8,7 +8,7 @@ interface DropdownProps{
 
 export default function Dropdown({ref}: DropdownProps){
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState("Entertainment");
+    const [selectedCategory, setSelectedCategory] = useState("Select");
 
     const handleClick = () => {
         setIsDropdownOpen(prev => !prev);

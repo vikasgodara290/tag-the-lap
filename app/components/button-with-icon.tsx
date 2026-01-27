@@ -1,7 +1,7 @@
 'use client'
 
 import { LucideProps } from "lucide-react"
-import { cloneElement, ReactElement } from "react";
+import { cloneElement, ReactElement, Ref } from "react";
 
 interface ButtonWithIconProps{
     icon: ReactElement<LucideProps>
@@ -11,9 +11,10 @@ interface ButtonWithIconProps{
     fontSize?: string,
     buttonSize?: string,
     onclick? : () => void,
+    ref?: Ref<HTMLSpanElement>
 }
 
-export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSize = 18, fontSize = 'text-base', buttonSize = 'mid', onclick, icon} : ButtonWithIconProps){
+export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSize = 18, fontSize = 'text-base', buttonSize = 'mid', onclick, icon, ref} : ButtonWithIconProps){
     let sizeStyle = 'p-2';
     switch(buttonSize){
         case 'sm': {
@@ -39,7 +40,7 @@ export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSiz
                         className: "relative bottom-px"
                     })}
                 </span>
-                <span className={`${fontSize}`}>
+                <span className={`${fontSize}`} ref={ref}>
                     {innerText}
                 </span>
             </button>
