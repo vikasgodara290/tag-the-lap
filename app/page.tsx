@@ -8,56 +8,32 @@ interface TableType{
   task: string,
   category: string,
   startTime: Date,
-  endTime: Date,
+  endTime: null | Date,
+  duration: number | null,
   createdAt: Date
 }
-
-const Columns : {key: string, label: string}[] = [
-  {
-    key : "task",
-    label : "Task"
-  },
-  {
-    key : "category",
-    label : "Category"
-  },
-  {
-    key : "startTime",
-    label : "Start Time"
-  },
-  {
-    key : "endTime",
-    label : "End Time"
-  },
-  {
-    key : "duration",
-    label : "Duration"
-  }
-]
-
 
 export default async function Home() {
   const res = await fetch('http://localhost:3000/api/task', {
     cache:'no-store'
   });
 
-  console.log(res)
-
   const data = await res.json();
   const tasks : TableType[] = data.tasks ?? [];
 
   const formattedTasks = tasks.map(task => ({
     ...task,
-    startTime: formatDate( new Date(task.startTime) ),
-    endTime: formatDate( new Date(task.endTime) ),
-    duration: new Date( task.startTime ).getHours() - new Date( task.endTime ).getHours()
-  }))
+    startTime: new Date(task.startTime) ,
+    endTime: task.endTime != null ? new Date(task.endTime) : null,
+    duration: task.endTime != null ?  new Date( task.endTime).getTime() - new Date( task.startTime ).getTime() : null
+  }));
+
+  console.log(formattedTasks)
 
   return (
     <div className="">
       {/* <Clock/> */}
-      <PopupSection/>
-      <Table columns={Columns} rows={formattedTasks} />
+      <PopupSection tasks={formattedTasks}/>
     </div>
   );
 }
@@ -65,12 +41,10 @@ export default async function Home() {
 function formatDate(date: Date) {
   console.log(date)
   return new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-    hour12: true,
+    second: "2-digit",
+    hour12: false,
   }).format(date)
     .replace(" ", "-")
     .replace(",", "");

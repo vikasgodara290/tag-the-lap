@@ -1,15 +1,16 @@
 'use client'
 
 import { Clock9 } from "lucide-react";
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 interface StopwatchProps{
     isStarted: boolean,
+    currentSeconds: number | undefined
 }
 
-export default function Stopwatch({isStarted}: StopwatchProps) {
-    const [seconds, setSeconds] = useState(0);
-    
+export default function Stopwatch({isStarted, currentSeconds}: StopwatchProps) {
+    const [seconds, setSeconds] = useState(currentSeconds ? currentSeconds : 0);
+
     useEffect(() =>{
         if(!isStarted) {
             setSeconds(0);

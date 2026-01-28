@@ -38,3 +38,19 @@ export async function POST(req : NextRequest){
 
     return NextResponse.json(taskDb);
 }
+
+export async function PUT(req : NextRequest){
+    const body = await req.json();
+    const {id, endTime} = body;
+    console.log(id, endTime)
+    const taskDb = await prisma.task.update({
+        where : {
+            id: parseInt(id)
+        },
+        data : {
+            endTime
+        }
+    })
+
+    return NextResponse.json(taskDb);
+}
