@@ -5,11 +5,15 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
 interface StopwatchProps{
     isStarted: boolean,
-    currentSeconds: number | undefined
+    currentSeconds: number
 }
 
 export default function Stopwatch({isStarted, currentSeconds}: StopwatchProps) {
     const [seconds, setSeconds] = useState(currentSeconds ? currentSeconds : 0);
+
+    useEffect(() => {
+        setSeconds(currentSeconds)
+    }, [currentSeconds]);
 
     useEffect(() =>{
         if(!isStarted) {

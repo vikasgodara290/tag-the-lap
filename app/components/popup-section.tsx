@@ -23,13 +23,19 @@ interface PopupSectionProps{
 export default function PopupSection({tasks}: PopupSectionProps){
     const [notification, setNotification] = useState('');
     const [currentTask, setCurrentTask] = useState(tasks.find(value => value.duration == null));
+    const [isTaskModalVisible, setIsTaskModalVisible] = useState(false);
 
     console.log(currentTask)
     return(
         <div className="">
-            <TaskPopup/>
+            <TaskPopup
+                isVisible={isTaskModalVisible}
+                setIsVisible={setIsTaskModalVisible}
+                currentTask={currentTask}
+                setCurrentTask={setCurrentTask}
+            />
             <Notification notification={notification} setNotification={setNotification}/>
-            <MainBar setNotification={setNotification} task={currentTask}/>
+            <MainBar setNotification={setNotification} task={currentTask} setIsTaskModalVisible={setIsTaskModalVisible}/>
             <TaskList/>
             <TaskList/>
             <TaskList/>

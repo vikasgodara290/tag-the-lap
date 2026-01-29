@@ -1,6 +1,6 @@
 'use client'
 import { ChevronsDownUp, ChevronsUpDown } from "lucide-react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { v4 as uuidv4 } from 'uuid'
 
 interface DropdownProps{
@@ -13,6 +13,12 @@ interface DropdownProps{
 export default function Dropdown({ref, options, currSelectedOption, isDisabled = false}: DropdownProps){
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(currSelectedOption ? currSelectedOption : "Select");
+
+    useEffect(() => {
+        if(currSelectedOption){
+            setSelectedOption(currSelectedOption)
+        }
+    }, [currSelectedOption])
 
     const handleClick = () => {
         if(isDisabled) return;

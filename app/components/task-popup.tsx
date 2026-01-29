@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import Input from "./input";
 import Dropdown from "./dropdown";
 import ButtonWithIcon from "./button-with-icon";
 import { X } from "lucide-react";
+import axios from "axios";
 
 const categoryArr = [
     "Entertainment",
@@ -13,11 +14,29 @@ const categoryArr = [
     "Health"
 ]
 
-export default function TaskPopup() {
+interface TableType{
+  id:number,
+  task: string,
+  category: string,
+  startTime: Date,
+  endTime: null | Date,
+  duration: number | null,
+  createdAt: Date
+}
+
+
+interface TaskPopupProps {
+  isVisible: boolean
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+  currentTask : TableType | undefined
+  setCurrentTask : React.Dispatch<React.SetStateAction<TableType | undefined>>
+}
+
+
+export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurrentTask}: TaskPopupProps) {
     const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLInputElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
-    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
         function handlePointerDown(e: MouseEvent) {
@@ -35,6 +54,35 @@ export default function TaskPopup() {
         }
     }, [isVisible]);
 
+    const handleBtnTransfer = async () => {
+        // Get the task and category
+        const taskInput = taskRef.current?.value;
+        const category = categoryRef.current?.textContent.trim();
+        
+        // Close the current task
+        const endTime = new Date();
+        axios.put('http://localhost:3000/api/task',{
+            id : currentTask?.id,
+            endTime
+        });
+        
+        // fill the new task and category on mainbar
+        const res = await axios.post('http://localhost:3000/api/task',{
+            task: taskInput, 
+            category, 
+            startTime : endTime,
+            endTime : null
+        });
+
+        // restart the clock
+        setCurrentTask(res.data);
+
+        // send a notification on successful transaction
+
+
+        setIsVisible(false);
+    }
+
     return(
         <>
          {
@@ -48,7 +96,7 @@ export default function TaskPopup() {
                     <Dropdown ref={categoryRef} options={categoryArr}/>
                 </div>
                 <div className="flex justify-center gap-4 mt-10">
-                    <ButtonWithIcon innerText="Submit"/>
+                    <ButtonWithIcon innerText="Submit" onclick={handleBtnTransfer}/>
                     <ButtonWithIcon innerText="Log Later"/>
                 </div>
             </div>
