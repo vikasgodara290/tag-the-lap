@@ -4,9 +4,9 @@ import { LucideProps } from "lucide-react"
 import { cloneElement, ReactElement, Ref } from "react";
 
 interface ButtonWithIconProps{
-    icon: ReactElement<LucideProps>
+    icon?: ReactElement<LucideProps>
     innerText : string,
-    isRoundCorner: boolean,
+    isRoundCorner?: boolean,
     iconSize?: number | string | undefined,
     fontSize?: string,
     buttonSize?: string,
@@ -33,9 +33,9 @@ export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSiz
         
     return (
         <div className="">
-            <button className={`w-20 flex flex-row justify-start gap-2 items-center border-2 border-black ${sizeStyle} ${isRoundCorner?'rounded-sm':''}`} onClick={onclick} >
+            <button className={`flex flex-row justify-start gap-2 items-center border-2 border-black ${sizeStyle} ${isRoundCorner?'rounded-sm':''}`} onClick={onclick} >
                 <span className="">
-                    {cloneElement(icon, {
+                    {icon && cloneElement(icon, {
                         size: iconSize,
                         className: "relative bottom-px"
                     })}

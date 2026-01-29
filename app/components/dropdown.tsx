@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 interface DropdownProps{
     ref : React.Ref<HTMLSpanElement>,
     options : string[],
-    currSelectedOption: string | undefined,
+    currSelectedOption?: string | undefined,
     isDisabled?: boolean
 }
 

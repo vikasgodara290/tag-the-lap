@@ -3,7 +3,7 @@ interface InputProps{
     className?: string,
     placeholder?: string,
     ref : React.Ref<HTMLInputElement>,
-    value : string | undefined 
+    value? : string | undefined 
 }
 
 export default function Input({className, placeholder, ref, value}:InputProps){

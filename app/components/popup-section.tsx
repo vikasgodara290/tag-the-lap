@@ -4,6 +4,7 @@ import MainBar from "./mainbar"
 import TaskList from "./task-list"
 import Notification from "./notification"
 import { useState } from "react"
+import TaskPopup from "./task-popup"
 
 interface TableType{
   id:number,
@@ -26,6 +27,7 @@ export default function PopupSection({tasks}: PopupSectionProps){
     console.log(currentTask)
     return(
         <div className="">
+            <TaskPopup/>
             <Notification notification={notification} setNotification={setNotification}/>
             <MainBar setNotification={setNotification} task={currentTask}/>
             <TaskList/>
