@@ -33,9 +33,18 @@ const categoryArr = [
 
 export default function MainBar({setNotification, task, setIsTaskModalVisible, setCurrentTask}: MainbarProps){
     const [isStarted, setIsStarted] = useState<boolean>(!!task);
+    const [taskInputVal, setTaskInputVal] = useState(task ? ((task.task == 'To Be Defined') ? undefined : task.task): undefined);
+    const [isTaskInputDisabled, setIsTaskInputDisabled] = useState(task ? ((task.task == 'To Be Defined') ? false : true): false);
+    const [isCatDropDownDisabled, setIsCatDropDownDisabled] = useState(true);
     const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLInputElement>(null);
     const btnRef = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        setTaskInputVal(task ? ((task.task == 'To Be Defined') ? undefined : task.task): undefined);
+        setIsCatDropDownDisabled(!!task);
+        setIsTaskInputDisabled(task ? ((task.task == 'To Be Defined') ? false : true): false);
+    },[task])
 
     const handleStart = async () => {
         const taskInput = taskRef.current?.value;
@@ -108,35 +117,33 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
 
     let icon : ReactElement<LucideProps>;
     let startBtnText : string = 'Start';
-    let value;
-    let isCatDropDownDisabled = task? true: false;
+    //let isCatDropDownDisabled = task? true: false;
     if(!isStarted){
         icon = <Play/>
     }
     else{
         icon = <Ban/>
         startBtnText=' Stop'
-        value = task?.task
     }
 
     if(task ? task.task == 'To Be Defined': false){
         startBtnText = 'Log the pending task'
         icon = <NotebookPen />
-        value = undefined
-        isCatDropDownDisabled = false
+        //isCatDropDownDisabled = false
     }
     
     return(
         <div className="flex justify-between items-center gap-3 border w-8/12 p-6 rounded-sm m-5 mx-auto">
-            <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef} value={value}/>
+            <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef} value={taskInputVal} isTaskInputDisabled={isTaskInputDisabled}/>
             <span className="flex items-center gap-3">
-                <Dropdown ref={categoryRef} options={categoryArr} currSelectedOption={task? task.category : undefined} isDisabled={isCatDropDownDisabled}/>
+                <Dropdown ref={categoryRef} options={categoryArr} currSelectedOption={task? task.category : undefined} isDisabled={isCatDropDownDisabled} />
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <Stopwatch isStarted={isStarted} currentSeconds={task ? Math.floor((Date.now() - new Date(task.startTime).getTime()) / 1000) : 0}/>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <ButtonWithIcon innerText={startBtnText} isRoundCorner={true} buttonSize="mid" onclick={handleStart} icon={icon} ref={btnRef}/>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
-                <EditIcon/>
+                <EditIcon setCurrentTask={setCurrentTask} setIsCatDropDownDisabled={setIsCatDropDownDisabled} setTaskInputVal={setTaskInputVal} catRef={categoryRef} 
+                taskRef={taskRef} currTask={task} setNotification={setNotification} setIsTaskInputDisabled={setIsTaskInputDisabled}/>
             </span>
         </div>
     )

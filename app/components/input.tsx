@@ -4,10 +4,11 @@ interface InputProps{
     placeholder?: string,
     ref : React.Ref<HTMLInputElement>,
     value? : string | undefined 
+    isTaskInputDisabled : boolean
 }
 
-export default function Input({className, placeholder, ref, value}:InputProps){
+export default function Input({className, placeholder, ref, value, isTaskInputDisabled}:InputProps){
     return(
-        <input type="text" className={className} placeholder={placeholder} ref={ref} defaultValue={value} readOnly={!!value}/>
+        <input type="text" className={className} placeholder={placeholder} ref={ref} defaultValue={value} readOnly={isTaskInputDisabled}/>
     )
 }
