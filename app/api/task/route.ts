@@ -41,16 +41,28 @@ export async function POST(req : NextRequest){
 
 export async function PUT(req : NextRequest){
     const body = await req.json();
-    const {id, endTime} = body;
-    console.log(id, endTime)
-    const taskDb = await prisma.task.update({
-        where : {
-            id: parseInt(id)
-        },
-        data : {
-            endTime
-        }
-    })
+    const {id, task, category, endTime} = body;
 
-    return NextResponse.json(taskDb);
+    if(endTime){
+        const taskDb = await prisma.task.update({
+            where : {
+                id: parseInt(id)
+            },
+            data : {
+                endTime
+            }
+        })
+        return NextResponse.json(taskDb);
+    } else{
+        const taskDb = await prisma.task.update({
+            where : {
+                id: parseInt(id)
+            },
+            data : {
+                task,
+                category
+            }
+        })
+        return NextResponse.json(taskDb);
+    }
 }

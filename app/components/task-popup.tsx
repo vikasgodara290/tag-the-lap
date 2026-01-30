@@ -83,6 +83,24 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
         setIsVisible(false);
     }
 
+    const handleBtnLogLater = async () => {
+        const endTime = new Date();
+        axios.put('http://localhost:3000/api/task',{
+            id : currentTask?.id,
+            endTime : endTime
+        });
+
+        const res = await axios.post('http://localhost:3000/api/task',{
+            task: 'To Be Defined', 
+            category :  'Select', 
+            startTime : endTime,
+            endTime : null
+        });
+
+        setCurrentTask(res.data);
+        setIsVisible(false);
+    }
+
     return(
         <>
          {
@@ -97,7 +115,7 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
                 </div>
                 <div className="flex justify-center gap-4 mt-10">
                     <ButtonWithIcon innerText="Submit" onclick={handleBtnTransfer}/>
-                    <ButtonWithIcon innerText="Log Later"/>
+                    <ButtonWithIcon innerText="Log Later" onclick={handleBtnLogLater}/>
                 </div>
             </div>
          }

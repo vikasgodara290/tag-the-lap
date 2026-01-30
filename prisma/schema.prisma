@@ -16,7 +16,7 @@ datasource db {
 
 model Task {
   id            Int      @id @default(autoincrement())
-  task          String   
+  task          String  
   category      String
   startTime     DateTime
   endTime       DateTime?

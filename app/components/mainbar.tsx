@@ -3,9 +3,9 @@ import ButtonWithIcon from "./button-with-icon";
 import Stopwatch from "./stopwatch";
 import Input from "./input";
 import Dropdown from "./dropdown";
-import EditIcon from "./edit-icon";
+import EditIcon from "./edit-task";
 import axios from "axios";
-import { Ban, LucideProps, Play } from "lucide-react";
+import { Ban, LucideProps, NotebookPen, Play, SquareCheckBig, Trash2 } from "lucide-react";
 
 interface TableType{
   id:number,
@@ -21,6 +21,7 @@ interface MainbarProps{
     setNotification:  Dispatch<SetStateAction<string>>,
     task : TableType | undefined,
     setIsTaskModalVisible: React.Dispatch<React.SetStateAction<boolean>>
+    setCurrentTask : React.Dispatch<React.SetStateAction<TableType | undefined>>
 }
 
 const categoryArr = [
@@ -30,13 +31,13 @@ const categoryArr = [
     "Health"
 ]
 
-export default function MainBar({setNotification, task, setIsTaskModalVisible}: MainbarProps){
+export default function MainBar({setNotification, task, setIsTaskModalVisible, setCurrentTask}: MainbarProps){
     const [isStarted, setIsStarted] = useState<boolean>(!!task);
     const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLInputElement>(null);
     const btnRef = useRef<HTMLSpanElement>(null);
 
-    const handleStart = () => {
+    const handleStart = async () => {
         const taskInput = taskRef.current?.value;
         const category = categoryRef.current?.textContent.trim();
         const startTime = new Date();
@@ -65,30 +66,50 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible}: 
         else if(btnText == 'Stop'){
             const endTime = new Date();
             // check the mode (Continuous or Non-Continuous)
-
-            // If non-continuous get the current task and update the endTime
-            // axios.put('http://localhost:3000/api/task',{
-            //     id : task?.id,
-            //     endTime
-            // });
-
+            const mode = 'continuous'
+            
             // If continuous popup a modal to log next task
-            setIsTaskModalVisible(true);
-
-
-            //setIsStarted(prev => !prev);
+            if(mode == 'continuous'){
+                setIsTaskModalVisible(true);
+            }
+            else{
+                //If non-continuous get the current task and update the endTime
+                axios.put('http://localhost:3000/api/task',{
+                    id : task?.id,
+                    endTime
+                });
+                setIsStarted(prev => !prev);
+            }
         }
         else if(btnText == 'Log the pending task'){
             // get temp task 
+            const taskInput = taskRef.current?.value;
+            const category = categoryRef.current?.textContent.trim();
 
+            if(!taskInput || taskInput === ''){
+                setNotification('Please enter task first!');
+                return;
+            }
+
+            if(!category || category === 'Select'){
+                setNotification('Please select category first!');
+                return;
+            }
             // update temp task with info given
+            const res = await axios.put('http://localhost:3000/api/task',{
+                id : task?.id,
+                task : taskInput,
+                category
+            });
 
+            setCurrentTask(res.data);
         }
     }
 
     let icon : ReactElement<LucideProps>;
     let startBtnText : string = 'Start';
     let value;
+    let isCatDropDownDisabled = task? true: false;
     if(!isStarted){
         icon = <Play/>
     }
@@ -97,12 +118,19 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible}: 
         startBtnText=' Stop'
         value = task?.task
     }
+
+    if(task ? task.task == 'To Be Defined': false){
+        startBtnText = 'Log the pending task'
+        icon = <NotebookPen />
+        value = undefined
+        isCatDropDownDisabled = false
+    }
     
     return(
         <div className="flex justify-between items-center gap-3 border w-8/12 p-6 rounded-sm m-5 mx-auto">
             <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef} value={value}/>
             <span className="flex items-center gap-3">
-                <Dropdown ref={categoryRef} options={categoryArr} currSelectedOption={task? task.category : undefined} isDisabled={task? true: false}/>
+                <Dropdown ref={categoryRef} options={categoryArr} currSelectedOption={task? task.category : undefined} isDisabled={isCatDropDownDisabled}/>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <Stopwatch isStarted={isStarted} currentSeconds={task ? Math.floor((Date.now() - new Date(task.startTime).getTime()) / 1000) : 0}/>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>

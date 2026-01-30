@@ -35,7 +35,7 @@ export default function PopupSection({tasks}: PopupSectionProps){
                 setCurrentTask={setCurrentTask}
             />
             <Notification notification={notification} setNotification={setNotification}/>
-            <MainBar setNotification={setNotification} task={currentTask} setIsTaskModalVisible={setIsTaskModalVisible}/>
+            <MainBar setNotification={setNotification} task={currentTask} setIsTaskModalVisible={setIsTaskModalVisible} setCurrentTask={setCurrentTask}/>
             <TaskList/>
             <TaskList/>
             <TaskList/>
