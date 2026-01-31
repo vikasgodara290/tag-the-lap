@@ -16,6 +16,16 @@ interface TableType{
   createdAt: Date
 }
 
+interface TableType2{
+  id:number,
+  task: string,
+  category: string,
+  startTime: Date,
+  endTime: Date,
+  duration: number,
+  createdAt: Date
+}
+
 interface PopupSectionProps{
     tasks: TableType[]
 }
@@ -24,6 +34,18 @@ export default function PopupSection({tasks}: PopupSectionProps){
     const [notification, setNotification] = useState('');
     const [currentTask, setCurrentTask] = useState(tasks.find(value => value.duration == null));
     const [isTaskModalVisible, setIsTaskModalVisible] = useState(false);
+
+    const taskList : TableType2[] = []
+    
+    tasks.map(task => {
+        if(task.endTime != null){
+            // @ts-ignore
+            taskList.push(task)
+        }
+        
+    })
+
+    tasks.find(value => value.endTime != null)? tasks.find(value => value.endTime != null) : undefined;
 
     console.log(currentTask)
     return(
@@ -36,9 +58,7 @@ export default function PopupSection({tasks}: PopupSectionProps){
             />
             <Notification notification={notification} setNotification={setNotification}/>
             <MainBar setNotification={setNotification} task={currentTask} setIsTaskModalVisible={setIsTaskModalVisible} setCurrentTask={setCurrentTask}/>
-            <TaskList/>
-            <TaskList/>
-            <TaskList/>
+            <TaskList taskList={taskList}/>
         </div>
     )
 }

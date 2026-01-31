@@ -1,8 +1,22 @@
 import { Ellipsis, ChevronsDownUp, ChevronsUpDown  } from "lucide-react";
 import Task from "./task";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function TaskList() {
+interface TableType{
+  id:number,
+  task: string,
+  category: string,
+  startTime: Date,
+  endTime:  Date,
+  duration: number,
+  createdAt: Date
+}
+
+interface TaskListProps {
+    taskList: TableType[] | undefined
+}
+
+export default function TaskList({taskList}: TaskListProps) {
     const [isListOpen, setIsListOpen] = useState(false);
 
     const handleListCollapseClick = () => {
@@ -32,10 +46,9 @@ export default function TaskList() {
             {
                 isListOpen && 
                 <span>
-                    <Task/>
-                    <Task/>
-                    <Task/>
-                    <Task/>
+                    {
+                        taskList!.map(task => <Task key={task.id} task={task}/>)
+                    }
                 </span>
             }
         </div>

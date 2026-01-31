@@ -24,10 +24,8 @@ export default async function Home() {
   const formattedTasks = tasks.map(task => ({
     ...task,
     endTime: task.endTime != null ? new Date(task.endTime) : null,
-    duration: task.endTime != null ?  new Date( task.endTime).getTime() - new Date( task.startTime ).getTime() : null
+    duration: task.endTime != null ?  new Date( task.endTime).getTime() - new Date( task.startTime ).getTime(): null
   }));
-
-  console.log(formattedTasks)
 
   return (
     <div className="">
