@@ -45,9 +45,14 @@ export default function PopupSection({tasks}: PopupSectionProps){
         
     })
 
-    tasks.find(value => value.endTime != null)? tasks.find(value => value.endTime != null) : undefined;
+    // Get the count of dates 
+    
+    // create array of TableType array
 
-    console.log(currentTask)
+    // Split task duration if the task ends on next day or any day after that.
+
+    // Get total number of hours 
+
     return(
         <div className="">
             <TaskPopup
