@@ -74,15 +74,12 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
         }
         else if(btnText == 'Stop'){
             const endTime = new Date();
-            // check the mode (Continuous or Non-Continuous)
             const mode = 'continuous'
             
-            // If continuous popup a modal to log next task
             if(mode == 'continuous'){
                 setIsTaskModalVisible(true);
             }
             else{
-                //If non-continuous get the current task and update the endTime
                 axios.put('http://localhost:3000/api/task',{
                     id : task?.id,
                     endTime
@@ -91,7 +88,6 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
             }
         }
         else if(btnText == 'Log the pending task'){
-            // get temp task 
             const taskInput = taskRef.current?.value;
             const category = categoryRef.current?.textContent.trim();
 
@@ -104,7 +100,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
                 setNotification('Please select category first!');
                 return;
             }
-            // update temp task with info given
+
             const res = await axios.put('http://localhost:3000/api/task',{
                 id : task?.id,
                 task : taskInput,
@@ -117,7 +113,6 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
 
     let icon : ReactElement<LucideProps>;
     let startBtnText : string = 'Start';
-    //let isCatDropDownDisabled = task? true: false;
     if(!isStarted){
         icon = <Play/>
     }
@@ -129,7 +124,6 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
     if(task ? task.task == 'To Be Defined': false){
         startBtnText = 'Log the pending task'
         icon = <NotebookPen />
-        //isCatDropDownDisabled = false
     }
     
     return(
