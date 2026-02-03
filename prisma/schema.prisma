@@ -15,16 +15,24 @@ datasource db {
 
 
 model Task {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   task          String  
-  category      String
+  category      Category?  @relation(fields: [categoryId], references: [id])
+  categoryId    Int?
   startTime     DateTime
   endTime       DateTime?
-  createdAt     DateTime @default(now())
+  createdAt     DateTime  @default(now())
 }
 
 model RecordTime {
-  userId      Int      @id @default(autoincrement())
-  startTime   DateTime
-  stopTime    DateTime
+  userId        Int       @id @default(autoincrement())
+  startTime     DateTime
+  stopTime      DateTime
+}
+
+model Category {
+  id            Int        @id @default(autoincrement())
+  category      String     
+  categoryColor String     
+  task          Task[]
 }

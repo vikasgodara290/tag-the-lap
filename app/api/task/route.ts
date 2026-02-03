@@ -30,10 +30,10 @@ export async function GET(req : NextRequest){
 
 export async function POST(req : NextRequest){
     const body = await req.json();
-    const {task, category, startTime, endTime} = body;
+    const {task, categoryId, startTime, endTime} = body;
 
     const taskDb = await prisma.task.create({
-        data: {task, category, startTime, endTime}
+        data: {task, categoryId, startTime, endTime}
     });
 
     return NextResponse.json(taskDb);
@@ -41,7 +41,7 @@ export async function POST(req : NextRequest){
 
 export async function PUT(req : NextRequest){
     const body = await req.json();
-    const {id, task, category, endTime} = body;
+    const {id, task, categoryId, endTime} = body;
 
     if(endTime){
         const taskDb = await prisma.task.update({
@@ -60,7 +60,7 @@ export async function PUT(req : NextRequest){
             },
             data : {
                 task,
-                category
+                categoryId
             }
         })
         return NextResponse.json(taskDb);

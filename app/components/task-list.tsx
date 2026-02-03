@@ -1,22 +1,15 @@
-import { Ellipsis, ChevronsDownUp, ChevronsUpDown  } from "lucide-react";
+import { ChevronsDownUp, ChevronsUpDown  } from "lucide-react";
 import Task from "./task";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { CategoryType, TaskType } from "../lib/types";
 
-interface TableType{
-  id:number,
-  task: string,
-  category: string,
-  startTime: Date,
-  endTime:  Date,
-  duration: number,
-  createdAt: Date
-}
 
 interface TaskListProps {
-    taskList: TableType[] | undefined
+    taskList: TaskType[] | undefined
+    category: CategoryType[]
 }
 
-export default function TaskList({taskList}: TaskListProps) {
+export default function TaskList({taskList, category}: TaskListProps) {
     const [isListOpen, setIsListOpen] = useState(false);
 
     const handleListCollapseClick = () => {
@@ -47,7 +40,7 @@ export default function TaskList({taskList}: TaskListProps) {
                 isListOpen && 
                 <span>
                     {
-                        taskList!.map(task => <Task key={task.id} task={task}/>)
+                        taskList!.map(task => <Task key={task.id} task={task} category={category}/>)
                     }
                 </span>
             }

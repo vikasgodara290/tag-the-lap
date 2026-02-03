@@ -1,26 +1,19 @@
 import { Ellipsis } from "lucide-react";
 import CategoryTag from "./category-tag";
-
-interface TableType{
-  id:number,
-  task: string,
-  category: string,
-  startTime: Date,
-  endTime: Date,
-  duration: number,
-  createdAt: Date
-}
+import { CategoryType, TaskType } from "../lib/types";
 
 interface PopupSectionProps{
-    task: TableType
+    task: TaskType
+    category : CategoryType[]
 }
 
+export default function Task({task, category}: PopupSectionProps) {
+    let hours : number, minutes : number, currSeconds : number;
+    const duration = (new Date(task.endTime!).getTime() - new Date(task.startTime).getTime()) / 1000;
 
-export default function Task({task}: PopupSectionProps) {
-    console.log('task: ' , Math.floor(task.duration/1000))
-    let hours = Math.floor((Math.floor(task.duration/1000) / 3600) % 24);
-    let minutes = Math.floor((Math.floor(task.duration/1000) / 60) % 60);
-    let currSeconds = Math.floor(task.duration/1000) % 60;
+    hours = Math.floor((Math.floor(duration) / 3600) % 24);
+    minutes = Math.floor((Math.floor(duration) / 60) % 60);
+    currSeconds = Math.floor(duration) % 60;
 
     return(
         <div className="h-16 flex items-center justify-between p-6 border-t">
@@ -29,12 +22,12 @@ export default function Task({task}: PopupSectionProps) {
                     {task.task}
                 </span>
                 <span>
-                    <CategoryTag category={task.category}/>
+                    <CategoryTag taskCategory={task.categoryId} category={category}/>
                 </span>
             </div>
             <div className="flex items-center justify-center">
                 <div className="mx-2">
-                    { formatDate( new Date(task.startTime) ) + ' - ' + formatDate(new Date(task.endTime))}
+                    { formatDate(new Date(task.startTime)) + ' - ' + formatDate(new Date(task.endTime!)) }
                 </div>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <div className="mx-2">
@@ -50,7 +43,6 @@ export default function Task({task}: PopupSectionProps) {
 }
 
 function formatDate(date: Date) {
-    console.log(date)
   return new Intl.DateTimeFormat("en-GB", {
     hour: "2-digit",
     minute: "2-digit",

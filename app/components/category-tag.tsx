@@ -1,8 +1,11 @@
 import { Dot } from "lucide-react"
+import { CategoryType } from "../lib/types";
 
 interface CategoryTagProps{
-    category : string
+    category : CategoryType[]
+    taskCategory : number
 }
+
 const tagColor = {
   orange: {
     bg: "bg-orange-100",
@@ -26,36 +29,13 @@ const tagColor = {
   },
 } as const;
 
-const categoryArr = [
-    {
-        id : 1,
-        category : "Entertainment",
-        color : "red"
-    },
-    {
-        id : 2,
-        category : "Study",
-        color : "pink"
-    },
-    {
-        id : 3,
-        category : "Health",
-        color : "green"
-    },
-    {
-        id : 4,
-        category : "Job",
-        color : "orange"
-    },
-]
+export default function CategoryTag({ taskCategory, category }: CategoryTagProps) {
+  const categoryObj = category.find(cat => cat.id === taskCategory);
 
-export default function CategoryTag({ category }: CategoryTagProps) {
-  const categoryObj = categoryArr.find(cat => cat.category === category);
-
-  if (!categoryObj) return null; // safety
+  if (!categoryObj) return null; 
 
   // @ts-ignore
-  const colors = tagColor[categoryObj.color];
+  const colors = tagColor[categoryObj.categoryColor];
 
   return (
     <div className={`flex items-center justify-center ${colors.bg} rounded-sm pr-3 ml-8`}>

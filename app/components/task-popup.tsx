@@ -6,34 +6,18 @@ import Dropdown from "./dropdown";
 import ButtonWithIcon from "./button-with-icon";
 import { X } from "lucide-react";
 import axios from "axios";
-
-const categoryArr = [
-    "Entertainment",
-    "Study",
-    "Job",
-    "Health"
-]
-
-interface TableType{
-  id:number,
-  task: string,
-  category: string,
-  startTime: Date,
-  endTime: null | Date,
-  duration: number | null,
-  createdAt: Date
-}
-
+import { CategoryType, TaskType } from "../lib/types";
 
 interface TaskPopupProps {
   isVisible: boolean
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
-  currentTask : TableType | undefined
-  setCurrentTask : React.Dispatch<React.SetStateAction<TableType | undefined>>
+  currentTask : TaskType | undefined
+  setCurrentTask : React.Dispatch<React.SetStateAction<TaskType | undefined>>
+  category : CategoryType[]
 }
 
 
-export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurrentTask}: TaskPopupProps) {
+export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurrentTask, category}: TaskPopupProps) {
     const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLInputElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
@@ -55,31 +39,23 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
     }, [isVisible]);
 
     const handleBtnTransfer = async () => {
-        // Get the task and category
         const taskInput = taskRef.current?.value;
-        const category = categoryRef.current?.textContent.trim();
+        const categoryId = parseInt(categoryRef.current?.id.trim()!);
         
-        // Close the current task
         const endTime = new Date();
-        axios.put('http://localhost:3000/api/task',{
+        await axios.put('http://localhost:3000/api/task',{
             id : currentTask?.id,
             endTime
         });
         
-        // fill the new task and category on mainbar
         const res = await axios.post('http://localhost:3000/api/task',{
             task: taskInput, 
-            category, 
+            categoryId, 
             startTime : endTime,
             endTime : null
         });
 
-        // restart the clock
         setCurrentTask(res.data);
-
-        // send a notification on successful transaction
-
-
         setIsVisible(false);
     }
 
@@ -92,7 +68,7 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
 
         const res = await axios.post('http://localhost:3000/api/task',{
             task: 'To Be Defined', 
-            category :  'Select', 
+            categoryId :  null, 
             startTime : endTime,
             endTime : null
         });
@@ -111,7 +87,7 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
                 </div>
                 <div className="flex justify-between gap-2">
                     <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef}/>
-                    <Dropdown ref={categoryRef} options={categoryArr}/>
+                    <Dropdown ref={categoryRef} options={toOptions(category)}/>
                 </div>
                 <div className="flex justify-center gap-4 mt-10">
                     <ButtonWithIcon innerText="Submit" onclick={handleBtnTransfer}/>
@@ -121,4 +97,11 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
          }
         </>
     )
+}
+
+function toOptions(categories: CategoryType[]) {
+  return categories.map(c => ({
+    id: c.id,
+    option: c.category,
+  }))
 }

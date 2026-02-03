@@ -1,48 +1,45 @@
 'use server'
-import Clock from "./components/clock";
-import PopupSection from "./components/popup-section";
-import Table from "./components/table";
 
-interface TableType{
-  id:number,
-  task: string,
-  category: string,
-  startTime: Date,
-  endTime: null | Date,
-  duration: number | null,
-  createdAt: Date
-}
+import PopupSection from "./components/popup-section";
+import { CategoryType, TaskType } from "./lib/types";
 
 export default async function Home() {
-  const res = await fetch('http://localhost:3000/api/task', {
-    cache:'no-store'
-  });
+  const { tasks } = await getTasks();
+  const { category } = await getCategory();
 
-  const data = await res.json();
-  const tasks : TableType[] = data.tasks ?? [];
-
-  const formattedTasks = tasks.map(task => ({
-    ...task,
-    endTime: task.endTime != null ? new Date(task.endTime) : null,
-    duration: task.endTime != null ?  new Date( task.endTime).getTime() - new Date( task.startTime ).getTime(): null
-  }));
+  console.log("Task From Page: ", tasks);
+  console.log("Category From Page: ", category);
 
   return (
     <div className="">
-      {/* <Clock/> */}
-      <PopupSection tasks={formattedTasks}/>
+      <PopupSection 
+        tasks={tasks}
+        category={category}  
+      />
     </div>
   );
 }
 
-function formatDate(date: Date) {
-  console.log(date)
-  return new Intl.DateTimeFormat("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  }).format(date)
-    .replace(" ", "-")
-    .replace(",", "");
+async function getTasks(): Promise<{tasks : TaskType[]}> {
+  const res = await fetch('http://localhost:3000/api/task', {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch tasks');
+  }
+
+  return res.json();
+}
+
+async function getCategory(): Promise<{category : CategoryType[]}> {
+  const res = await fetch('http://localhost:3000/api/category', {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch tasks');
+  }
+
+  return res.json();
 }

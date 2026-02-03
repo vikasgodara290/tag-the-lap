@@ -1,24 +1,28 @@
 'use client'
 import { ChevronsDownUp, ChevronsUpDown } from "lucide-react"
 import React, { useEffect, useState } from "react"
-import { v4 as uuidv4 } from 'uuid'
+
+interface OptionType {
+    id : number,
+    option : string
+}
 
 interface DropdownProps{
     ref : React.Ref<HTMLSpanElement>,
-    options : string[],
-    currSelectedOption?: string | undefined,
+    options : OptionType[],
+    currSelectedOptionId?: number | undefined,
     isDisabled?: boolean
 }
 
-export default function Dropdown({ref, options, currSelectedOption, isDisabled = false}: DropdownProps){
+export default function Dropdown({ref, options, currSelectedOptionId, isDisabled = false}: DropdownProps){
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(currSelectedOption ? currSelectedOption : "Select");
+    const [selectedOptionId, setSelectedOptionId] = useState(currSelectedOptionId ? currSelectedOptionId : 0);
 
     useEffect(() => {
-        if(currSelectedOption){
-            setSelectedOption(currSelectedOption)
+        if(currSelectedOptionId){
+            setSelectedOptionId(currSelectedOptionId)
         }
-    }, [currSelectedOption])
+    }, [currSelectedOptionId])
 
     const handleClick = () => {
         if(isDisabled) return;
@@ -30,16 +34,16 @@ export default function Dropdown({ref, options, currSelectedOption, isDisabled =
     }
 
     const handleSelectClick = (e : React.MouseEvent) => {
-        const selectedOption = e.currentTarget.textContent.trim();
+        const selectedOption = e.currentTarget.id.trim();
         setIsDropdownOpen(false);
-        setSelectedOption(selectedOption);
+        setSelectedOptionId(parseInt(selectedOption));
     }
 
     return(
         <div tabIndex={0} className="select-none" onBlur={handleBlur}>
             <div className="border-2 rounded-sm p-2 flex items-center justify-between w-36 hover:cursor-pointer" onClick={handleClick}>
-                <span ref={ref}>
-                    {selectedOption} 
+                <span ref={ref} id={selectedOptionId.toString()}>
+                    {selectedOptionId === 0? "Select" : options.find(option => option.id === selectedOptionId)?.option} 
                 </span>
                 {
                     !isDropdownOpen ? <ChevronsUpDown size={18}/>:<ChevronsDownUp size={18}/>
@@ -51,7 +55,7 @@ export default function Dropdown({ref, options, currSelectedOption, isDisabled =
                     {
                         options.map((value) => {
                             return (
-                                <div key={uuidv4()} className="p-2 hover:bg-gray-400" onClick={e => handleSelectClick(e)}>{value}</div>
+                                <div id={value.id.toString()} key={value.id} className="p-2 hover:bg-gray-400" onClick={e => handleSelectClick(e)}>{value.option}</div>
                             )
                         })
                     }

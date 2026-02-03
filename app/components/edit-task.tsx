@@ -1,24 +1,15 @@
 import axios from "axios";
 import { Edit, SquareCheckBig, Trash2 } from "lucide-react";
 import { useState } from "react";
-
-interface TableType{
-  id:number,
-  task: string,
-  category: string,
-  startTime: Date,
-  endTime: null | Date,
-  duration: number | null,
-  createdAt: Date
-}
+import { TaskType } from "../lib/types";
 
 interface EditIconProps {
     setTaskInputVal : React.Dispatch<React.SetStateAction<string | undefined>>
     setIsCatDropDownDisabled : React.Dispatch<React.SetStateAction<boolean>>
-    setCurrentTask : React.Dispatch<React.SetStateAction<TableType | undefined>>
+    setCurrentTask : React.Dispatch<React.SetStateAction<TaskType | undefined>>
     catRef : React.RefObject<HTMLSpanElement | null>
     taskRef : React.RefObject<HTMLInputElement | null>
-    currTask : TableType | undefined
+    currTask : TaskType | undefined
     setNotification:  React.Dispatch<React.SetStateAction<string>>,
     setIsTaskInputDisabled  : React.Dispatch<React.SetStateAction<boolean>>
 }

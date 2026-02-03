@@ -5,45 +5,17 @@ import TaskList from "./task-list"
 import Notification from "./notification"
 import { useState } from "react"
 import TaskPopup from "./task-popup"
-
-interface TableType{
-  id:number,
-  task: string,
-  category: string,
-  startTime: Date,
-  endTime: null | Date,
-  duration: number | null,
-  createdAt: Date
-}
-
-interface TableType2{
-  id:number,
-  task: string,
-  category: string,
-  startTime: Date,
-  endTime: Date,
-  duration: number,
-  createdAt: Date
-}
+import { CategoryType, TaskType } from "../lib/types"
 
 interface PopupSectionProps{
-    tasks: TableType[]
+    tasks: TaskType[]
+    category : CategoryType[]
 }
 
-export default function PopupSection({tasks}: PopupSectionProps){
+export default function PopupSection({tasks, category}: PopupSectionProps){
     const [notification, setNotification] = useState('');
-    const [currentTask, setCurrentTask] = useState(tasks.find(value => value.duration == null));
+    const [currentTask, setCurrentTask] = useState(tasks.find(value => value.endTime == null));
     const [isTaskModalVisible, setIsTaskModalVisible] = useState(false);
-
-    const taskList : TableType2[] = []
-    
-    tasks.map(task => {
-        if(task.endTime != null){
-            // @ts-ignore
-            taskList.push(task)
-        }
-        
-    })
 
     // Get the count of dates 
     
@@ -56,14 +28,27 @@ export default function PopupSection({tasks}: PopupSectionProps){
     return(
         <div className="">
             <TaskPopup
-                isVisible={isTaskModalVisible}
-                setIsVisible={setIsTaskModalVisible}
                 currentTask={currentTask}
                 setCurrentTask={setCurrentTask}
+                isVisible={isTaskModalVisible}
+                setIsVisible={setIsTaskModalVisible}
+                category={category}
             />
-            <Notification notification={notification} setNotification={setNotification}/>
-            <MainBar setNotification={setNotification} task={currentTask} setIsTaskModalVisible={setIsTaskModalVisible} setCurrentTask={setCurrentTask}/>
-            <TaskList taskList={taskList}/>
+            <Notification 
+                notification={notification} 
+                setNotification={setNotification}
+            />
+            <MainBar 
+                task={currentTask} 
+                setCurrentTask={setCurrentTask}
+                setNotification={setNotification} 
+                setIsTaskModalVisible={setIsTaskModalVisible} 
+                category={category}
+            />
+            <TaskList 
+                taskList={tasks.filter(task => task.endTime != null)}
+                category={category}
+            />
         </div>
     )
 }

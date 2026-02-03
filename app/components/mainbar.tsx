@@ -6,49 +6,34 @@ import Dropdown from "./dropdown";
 import EditIcon from "./edit-task";
 import axios from "axios";
 import { Ban, LucideProps, NotebookPen, Play, SquareCheckBig, Trash2 } from "lucide-react";
-
-interface TableType{
-  id:number,
-  task: string,
-  category: string,
-  startTime: Date,
-  endTime: null | Date,
-  duration: number | null,
-  createdAt: Date
-}
+import { CategoryType, TaskType } from "../lib/types";
 
 interface MainbarProps{
     setNotification:  Dispatch<SetStateAction<string>>,
-    task : TableType | undefined,
+    task : TaskType | undefined,
     setIsTaskModalVisible: React.Dispatch<React.SetStateAction<boolean>>
-    setCurrentTask : React.Dispatch<React.SetStateAction<TableType | undefined>>
+    setCurrentTask : React.Dispatch<React.SetStateAction<TaskType | undefined>>
+    category: CategoryType[]
 }
 
-const categoryArr = [
-    "Entertainment",
-    "Study",
-    "Job",
-    "Health"
-]
-
-export default function MainBar({setNotification, task, setIsTaskModalVisible, setCurrentTask}: MainbarProps){
+export default function MainBar({setNotification, task, setIsTaskModalVisible, setCurrentTask, category}: MainbarProps){
     const [isStarted, setIsStarted] = useState<boolean>(!!task);
     const [taskInputVal, setTaskInputVal] = useState(task ? ((task.task == 'To Be Defined') ? undefined : task.task): undefined);
     const [isTaskInputDisabled, setIsTaskInputDisabled] = useState(task ? ((task.task == 'To Be Defined') ? false : true): false);
-    const [isCatDropDownDisabled, setIsCatDropDownDisabled] = useState(true);
+    const [isCatDropDownDisabled, setIsCatDropDownDisabled] = useState(task ? !(task.categoryId === null) : false);
     const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLInputElement>(null);
     const btnRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         setTaskInputVal(task ? ((task.task == 'To Be Defined') ? undefined : task.task): undefined);
-        setIsCatDropDownDisabled(!!task);
+        setIsCatDropDownDisabled(task ? !(task.categoryId === null) : false);
         setIsTaskInputDisabled(task ? ((task.task == 'To Be Defined') ? false : true): false);
     },[task])
 
     const handleStart = async () => {
         const taskInput = taskRef.current?.value;
-        const category = categoryRef.current?.textContent.trim();
+        const categoryId = parseInt(categoryRef.current?.id.trim()!);
         const startTime = new Date();
         const btnText = btnRef.current?.textContent.trim();
 
@@ -57,7 +42,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
             return;
         }
 
-        if(!category || category === 'Select'){
+        if(!categoryId || categoryId === 0){
             setNotification('Please select category first!');
             return;
         }
@@ -66,7 +51,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
             const endTime = null;
             axios.post('http://localhost:3000/api/task',{
                 task: taskInput, 
-                category, 
+                categoryId, 
                 startTime,
                 endTime
             })
@@ -88,23 +73,10 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
             }
         }
         else if(btnText == 'Log the pending task'){
-            const taskInput = taskRef.current?.value;
-            const category = categoryRef.current?.textContent.trim();
-
-            if(!taskInput || taskInput === ''){
-                setNotification('Please enter task first!');
-                return;
-            }
-
-            if(!category || category === 'Select'){
-                setNotification('Please select category first!');
-                return;
-            }
-
             const res = await axios.put('http://localhost:3000/api/task',{
                 id : task?.id,
                 task : taskInput,
-                category
+                categoryId
             });
 
             setCurrentTask(res.data);
@@ -125,12 +97,14 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
         startBtnText = 'Log the pending task'
         icon = <NotebookPen />
     }
+    console.log('from main bar: ', isCatDropDownDisabled, task)
     
     return(
         <div className="flex justify-between items-center gap-3 border w-8/12 p-6 rounded-sm m-5 mx-auto">
             <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef} value={taskInputVal} isTaskInputDisabled={isTaskInputDisabled}/>
             <span className="flex items-center gap-3">
-                <Dropdown ref={categoryRef} options={categoryArr} currSelectedOption={task? task.category : undefined} isDisabled={isCatDropDownDisabled} />
+                <Dropdown ref={categoryRef} options={toOptions(category)} currSelectedOptionId={task? ((task.categoryId == null) ? undefined : task.categoryId ): undefined} 
+                isDisabled={isCatDropDownDisabled} />
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
                 <Stopwatch isStarted={isStarted} currentSeconds={task ? Math.floor((Date.now() - new Date(task.startTime).getTime()) / 1000) : 0}/>
                 <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
@@ -143,14 +117,9 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
     )
 }
 
-function formatDate(date: Date) {
-  console.log(date)
-  return new Intl.DateTimeFormat("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  }).format(date)
-    .replace(" ", "-")
-    .replace(",", "");
+function toOptions(categories: CategoryType[]) {
+  return categories.map(c => ({
+    id: c.id,
+    option: c.category,
+  }))
 }
