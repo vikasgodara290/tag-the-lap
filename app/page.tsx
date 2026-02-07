@@ -1,6 +1,6 @@
 'use server'
 
-import PopupSection from "./components/popup-section";
+import PopupSection from "./components/dashboard";
 import { CategoryType, TaskType } from "./lib/types";
 
 export default async function Home() {
@@ -21,7 +21,7 @@ export default async function Home() {
 }
 
 async function getTasks(): Promise<{tasks : TaskType[]}> {
-  const res = await fetch('http://localhost:3000/api/task', {
+  const res = await fetch('http://localhost:3000/api/task?noOfDays=7', {
     cache: 'no-store',
   });
 

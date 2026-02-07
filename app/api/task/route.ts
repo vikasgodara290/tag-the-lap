@@ -4,24 +4,42 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req : NextRequest){
     const searchParams = req.nextUrl.searchParams;
     const id = searchParams.get('id');
+    const noOfDays = searchParams.get(('noOfDays'));
 
-    if(!id){
-        const tasks = await prisma.task.findMany({
-            orderBy: {
-                createdAt : 'desc'
-            }
-        })
-        return NextResponse.json({
-            tasks
-        })
-    }
-    else{
+    if(id){
         const tasks = await prisma.task.findFirst({
             where:{
                 id : parseInt(id)
             }
         })
 
+        return NextResponse.json({
+            tasks
+        })
+    }
+    else if(noOfDays){
+        const fromDate = new Date(new Date().setUTCDate(new Date().getUTCDate() - parseInt(noOfDays)));
+        console.log(fromDate)
+        const tasks = await prisma.task.findMany(
+            {
+                where : {
+                    startTime: {
+                        gt: fromDate
+                    }
+                }
+            }
+        )
+
+        return NextResponse.json({
+            tasks
+        })
+    }
+    else{
+        const tasks = await prisma.task.findMany({
+            orderBy: {
+                createdAt : 'desc'
+            }
+        })
         return NextResponse.json({
             tasks
         })

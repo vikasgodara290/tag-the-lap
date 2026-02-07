@@ -17,13 +17,17 @@ export default function PopupSection({tasks, category}: PopupSectionProps){
     const [currentTask, setCurrentTask] = useState(tasks.find(value => value.endTime == null));
     const [isTaskModalVisible, setIsTaskModalVisible] = useState(false);
 
-    // Get the count of dates 
-    
-    // create array of TableType array
+    const noOfDays = 7;
 
-    // Split task duration if the task ends on next day or any day after that.
+    const arr : TaskType[][] = []
 
-    // Get total number of hours 
+    getArrayOfDates(noOfDays).forEach(day => {
+        arr.push(
+            tasks.filter(task => {
+                return new Date (task.startTime) > day
+            })
+        )
+    });
 
     return(
         <div className="">
@@ -45,10 +49,33 @@ export default function PopupSection({tasks, category}: PopupSectionProps){
                 setIsTaskModalVisible={setIsTaskModalVisible} 
                 category={category}
             />
-            <TaskList 
-                taskList={tasks.filter(task => task.endTime != null)}
-                category={category}
-            />
+            {
+                arr.map(a => 
+                    <TaskList 
+                        taskList={a.filter(task => task.endTime != null)}
+                        category={category}
+                    />
+                )
+            }
         </div>
     )
+}
+
+function getArrayOfDays(noOfDays : number){
+    let arrOfDays = [];
+    for(let i = 0; i < noOfDays; i++){
+        const day = new Date(new Date().setDate(new Date().getDate() - i))
+        .toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', year : 'numeric', month : 'short'});
+        arrOfDays.push(day);
+    }
+    return arrOfDays;
+}
+
+function getArrayOfDates(noOfDays : number){
+    let arrOfDays : Date[] = [];
+    for(let i = 0; i < noOfDays; i++){
+        const day = new Date(new Date().setDate(new Date().getDate() - i));
+        arrOfDays.push(day);
+    }
+    return arrOfDays;
 }
