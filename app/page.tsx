@@ -21,7 +21,7 @@ export default async function Home() {
 }
 
 async function getTasks(): Promise<{tasks : TaskType[]}> {
-  const res = await fetch('http://localhost:3000/api/task?noOfDays=7', {
+  const res = await fetch('http://localhost:3000/api/task?noOfDays=15', {
     cache: 'no-store',
   });
 

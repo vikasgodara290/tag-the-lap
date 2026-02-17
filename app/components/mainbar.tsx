@@ -34,7 +34,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
     const handleStart = async () => {
         const taskInput = taskRef.current?.value;
         const categoryId = parseInt(categoryRef.current?.id.trim()!);
-        const startTime = new Date();
+        const startTime = new Date().toISOString();
         const btnText = btnRef.current?.textContent.trim();
 
         if(!taskInput || taskInput === ''){
@@ -58,7 +58,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
             setIsStarted(prev => !prev);
         }
         else if(btnText == 'Stop'){
-            const endTime = new Date();
+            const endTime = new Date().toISOString();
             const mode = 'continuous'
             
             if(mode == 'continuous'){

@@ -42,7 +42,7 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
         const taskInput = taskRef.current?.value;
         const categoryId = parseInt(categoryRef.current?.id.trim()!);
         
-        const endTime = new Date();
+        const endTime = new Date().toISOString();
         await axios.put('http://localhost:3000/api/task',{
             id : currentTask?.id,
             endTime
@@ -60,7 +60,7 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
     }
 
     const handleBtnLogLater = async () => {
-        const endTime = new Date();
+        const endTime = new Date().toISOString();
         axios.put('http://localhost:3000/api/task',{
             id : currentTask?.id,
             endTime : endTime
