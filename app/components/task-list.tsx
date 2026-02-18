@@ -1,6 +1,6 @@
 import { ChevronsDownUp, ChevronsUpDown  } from "lucide-react";
 import Task from "./task";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoryType, TaskType } from "../lib/types";
 
 
@@ -12,10 +12,27 @@ interface TaskListProps {
 
 export default function TaskList({taskList, category, day}: TaskListProps) {
     const [isListOpen, setIsListOpen] = useState(new Date(day).getDate() == new Date().getDate()? true : false);
+    const [totalTime, setTotalTime] = useState('00:00:00');
 
     const handleListCollapseClick = () => {
         setIsListOpen(prev => !prev);
     }
+
+    useEffect(() => {
+        let hours : number, minutes : number, currSeconds : number;
+        let totalTimeLocal: number = 0;
+        taskList?.forEach(task => {
+            const duration = (new Date(task.endTime!).getTime() - new Date(task.startTime).getTime()) / 1000;
+            console.log('from inside: ',duration)
+            totalTimeLocal =+ duration;
+        })
+
+        hours = Math.floor((Math.floor(totalTimeLocal) / 3600) % 24);
+        minutes = Math.floor((Math.floor(totalTimeLocal) / 60) % 60);
+        currSeconds = Math.floor(totalTimeLocal) % 60;
+
+        setTotalTime(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}`)
+    },[taskList])
 
     return(
         <div className="border rounded-sm w-8/12 m-5 mx-auto">
@@ -26,7 +43,7 @@ export default function TaskList({taskList, category, day}: TaskListProps) {
                 </div>
                 <div className="flex items-center justify-center">
                     <div className="mx-2">
-                        Totals:  05:42:23
+                        Totals: {totalTime}
                     </div>
                     <div className="mx-2">
                         
