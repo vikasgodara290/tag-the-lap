@@ -100,16 +100,17 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
     console.log('from main bar: ', isCatDropDownDisabled, task)
     
     return(
-        <div className="flex justify-between items-center gap-3 border w-8/12 p-6 rounded-sm m-5 mx-auto">
+        <div className="flex justify-between items-center gap-3 border-2 border-gray-200 w-8/12 p-6 rounded-md m-5 mx-auto">
             <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef} value={taskInputVal} isTaskInputDisabled={isTaskInputDisabled}/>
             <span className="flex items-center gap-3">
                 <Dropdown ref={categoryRef} options={toOptions(category)} currSelectedOptionId={task? ((task.categoryId == null) ? undefined : task.categoryId ): undefined} 
-                isDisabled={isCatDropDownDisabled} />
-                <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
+                isDisabled={isCatDropDownDisabled} className="text-gray-700"/>
+                <span className="border h-4 rounded-2xl border-gray-200 mx-2"></span>
                 <Stopwatch isStarted={isStarted} currentSeconds={task ? Math.floor((Date.now() - new Date(task.startTime).getTime()) / 1000) : 0}/>
-                <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
-                <ButtonWithIcon innerText={startBtnText} isRoundCorner={true} buttonSize="mid" onclick={handleStart} icon={icon} ref={btnRef}/>
-                <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
+                <span className="border h-4 rounded-2xl border-gray-200 mx-2"></span>
+                <ButtonWithIcon innerText={startBtnText} isRoundCorner={true} buttonSize="mid" onclick={handleStart} icon={icon} ref={btnRef} 
+                className="bg-linear-to-b from-violet-500 via-violet-600 to-violet-500 hover:via-violet-700 text-white px-6"/>
+                <span className="border h-4 rounded-2xl border-gray-200 mx-2"></span>
                 <EditIcon setCurrentTask={setCurrentTask} setIsCatDropDownDisabled={setIsCatDropDownDisabled} setTaskInputVal={setTaskInputVal} catRef={categoryRef} 
                 taskRef={taskRef} currTask={task} setNotification={setNotification} setIsTaskInputDisabled={setIsTaskInputDisabled}/>
             </span>

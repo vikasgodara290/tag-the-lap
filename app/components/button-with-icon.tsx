@@ -11,11 +11,12 @@ interface ButtonWithIconProps{
     fontSize?: string,
     buttonSize?: string,
     onclick? : () => void,
-    ref?: Ref<HTMLSpanElement>
+    ref?: Ref<HTMLSpanElement>,
+    className?: string
 }
 
-export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSize = 18, fontSize = 'text-base', buttonSize = 'mid', onclick, icon, ref} : ButtonWithIconProps){
-    let sizeStyle = 'p-2';
+export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSize = 16, fontSize = 'text-base', buttonSize = 'mid', onclick, icon, ref, className} : ButtonWithIconProps){
+    let sizeStyle = 'p-2.5';
     switch(buttonSize){
         case 'sm': {
             sizeStyle = 'p-1';
@@ -33,7 +34,7 @@ export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSiz
         
     return (
         <div className="">
-            <button className={`flex flex-row justify-start gap-2 items-center border-2 border-black ${sizeStyle} ${isRoundCorner?'rounded-sm':''}`} onClick={onclick} >
+            <button className={`${className} flex flex-row justify-start gap-2 items-center hover:cursor-pointer border-2 ${sizeStyle} ${isRoundCorner?'rounded-md':''}`} onClick={onclick} >
                 <span className="">
                     {icon && cloneElement(icon, {
                         size: iconSize,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Edit, SquareCheckBig, Trash2 } from "lucide-react";
+import { Edit, SquareCheckBig, X } from "lucide-react";
 import { useState } from "react";
 import { TaskType } from "../lib/types";
 
@@ -58,10 +58,10 @@ export default function EditIcon({setTaskInputVal, setIsCatDropDownDisabled, set
             {
                 isInEdit ?
                 <span className="flex justify-center items-center gap-3">
-                    <SquareCheckBig onClick={handleSaveTask} className="hover:cursor-pointer"/> 
-                    <Trash2 onClick={handleCancelEdit} className="hover:cursor-pointer"/>
+                    <SquareCheckBig onClick={handleSaveTask} className="hover:cursor-pointer" size={18}/> 
+                    <X onClick={handleCancelEdit} className="hover:cursor-pointer" size={18}/>
                 </span>
-                : <Edit onClick={handleEditTask} className="hover:cursor-pointer"/>
+                : <Edit onClick={handleEditTask} className="hover:cursor-pointer" size={18}/>
             }
         </div>
     )

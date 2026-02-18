@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-roboto antialiased select-none`}
+        className={`font-inter-500 antialiased select-none`}
         cz-shortcut-listen="true"
       >
         {children}

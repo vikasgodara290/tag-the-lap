@@ -16,7 +16,7 @@ export default function Task({task, category}: PopupSectionProps) {
     currSeconds = Math.floor(duration) % 60;
 
     return(
-        <div className="h-16 flex items-center justify-between p-6 border-t">
+        <div className="h-16 flex items-center justify-between p-6 border-t-2 border-gray-200">
             <div className="flex-1 flex ">
                 <span className="relative top-px">
                     {task.task}
@@ -29,11 +29,11 @@ export default function Task({task, category}: PopupSectionProps) {
                 <div className="mx-2">
                     { formatDate(new Date(task.startTime)) + ' - ' + formatDate(new Date(task.endTime!)) }
                 </div>
-                <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
+                <span className="border h-4 rounded-2xl border-gray-200 mx-2"></span>
                 <div className="mx-2">
                     { `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}` }
                 </div>
-                <span className="border h-4 rounded-2xl border-gray-300 mx-2"></span>
+                <span className="border h-4 rounded-2xl border-gray-200 mx-2"></span>
                 <div className="">
                     <Ellipsis size={18} className="relative bottom-px"/>
                 </div>

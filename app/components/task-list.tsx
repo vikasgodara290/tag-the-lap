@@ -35,7 +35,7 @@ export default function TaskList({taskList, category, day}: TaskListProps) {
     },[taskList])
 
     return(
-        <div className="border rounded-sm w-8/12 m-5 mx-auto">
+        <div className="border-2 border-gray-200 rounded-md w-8/12 m-5 mx-auto">
             <div className="h-16 rounded-sm flex justify-between items-center p-6 bg-gray-50 hover:cursor-pointer" onClick={handleListCollapseClick}>
                 <div className="flex-1">
                     {/* Today, 24 Jan 2026 */}
