@@ -23,6 +23,8 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
     const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        taskRef.current?.focus();
+
         function handlePointerDown(e: MouseEvent) {
             if (!isVisible) return;
             if (!modalRef.current) return;
@@ -81,17 +83,19 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
         <>
          {
             isVisible &&
-            <div ref={modalRef} className="border w-1/4 p-5 absolute bg-white top-1/6 left-1/2 transform -translate-x-1/2">
-                <div className="flex justify-end mb-4">
-                    <X/>
-                </div>
-                <div className="flex justify-between gap-2">
-                    <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef}/>
-                    <Dropdown ref={categoryRef} options={toOptions(category)}/>
-                </div>
-                <div className="flex justify-center gap-4 mt-10">
-                    <ButtonWithIcon innerText="Submit" onclick={handleBtnTransfer}/>
-                    <ButtonWithIcon innerText="Log Later" onclick={handleBtnLogLater}/>
+            <div className="absolute w-screen h-screen bg-gray-600/50 z-50 top-0 left-0 right-0 bottom-0">
+                <div ref={modalRef} className="border-2 border-gray-200 w-5/12 p-5 absolute bg-white top-1/6 left-1/2 transform -translate-x-1/2 rounded-md">
+                    <div className="flex justify-end mb-4">
+                        <X/>
+                    </div>
+                    <div className="flex justify-between gap-2">
+                        <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef}/>
+                        <Dropdown ref={categoryRef} options={toOptions(category)}/>
+                    </div>
+                    <div className="flex justify-center gap-4 mt-10">
+                        <ButtonWithIcon innerText="Start" onclick={handleBtnTransfer} className="bg-linear-to-b from-violet-500 via-violet-600 to-violet-500 hover:via-violet-700 text-white px-6"/>
+                        <ButtonWithIcon innerText="Log Later" onclick={handleBtnLogLater} className="px-6 border border-violet-500 text-violet-600 bg-white hover:bg-violet-50 hover:border-violet-600 transition-all duration-200"/>
+                    </div>
                 </div>
             </div>
          }

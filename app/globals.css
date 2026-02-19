@@ -1,11 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 @import "tailwindcss";
-@theme {
-  --font-roboto: "Roboto", sans-serif; 
-}
-
 
 .font-red-hat-display-300 {
   font-family: "Red Hat Display", sans-serif;
@@ -13,30 +10,35 @@
   font-weight: 300;
   font-style: normal;
 }
+
 .font-red-hat-display-400 {
   font-family: "Red Hat Display", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
+
 .font-red-hat-display-500 {
   font-family: "Red Hat Display", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
 }
+
 .font-red-hat-display-600 {
   font-family: "Red Hat Display", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
 }
+
 .font-red-hat-display-800 {
   font-family: "Red Hat Display", sans-serif;
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
 }
+
 .font-red-hat-display-900 {
   font-family: "Red Hat Display", sans-serif;
   font-optical-sizing: auto;
@@ -80,3 +82,17 @@
   font-style: normal;
 }
 
+
+.sn-pro-400 {
+  font-family: "SN Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sn-pro-500 {
+  font-family: "SN Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}

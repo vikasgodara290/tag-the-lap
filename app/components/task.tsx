@@ -11,9 +11,9 @@ export default function Task({task, category}: PopupSectionProps) {
     let hours : number, minutes : number, currSeconds : number;
     const duration = (new Date(task.endTime!).getTime() - new Date(task.startTime).getTime()) / 1000;
 
-    hours = Math.floor((Math.floor(duration) / 3600) % 24);
-    minutes = Math.floor((Math.floor(duration) / 60) % 60);
-    currSeconds = Math.floor(duration) % 60;
+    hours = Math.floor(duration / 3600);
+    minutes = Math.floor((duration % 3600) / 60);
+    currSeconds = Math.floor((duration % 3600) % 60);
 
     return(
         <div className="h-16 flex items-center justify-between p-6 border-t-2 border-gray-200">

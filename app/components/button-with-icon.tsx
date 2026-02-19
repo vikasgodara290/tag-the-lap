@@ -34,11 +34,11 @@ export default function ButtonWithIcon({innerText, isRoundCorner = true, iconSiz
         
     return (
         <div className="">
-            <button className={`${className} flex flex-row justify-start gap-2 items-center hover:cursor-pointer border-2 ${sizeStyle} ${isRoundCorner?'rounded-md':''}`} onClick={onclick} >
+            <button className={`${className} flex flex-row justify-start items-center hover:cursor-pointer border-2 ${sizeStyle} ${isRoundCorner?'rounded-md':''}`} onClick={onclick} >
                 <span className="">
                     {icon && cloneElement(icon, {
                         size: iconSize,
-                        className: "relative bottom-px"
+                        className: "relative bottom-px mr-2"
                     })}
                 </span>
                 <span className={`${fontSize}`} ref={ref}>

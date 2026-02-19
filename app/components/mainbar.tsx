@@ -97,10 +97,9 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
         startBtnText = 'Log the pending task'
         icon = <NotebookPen />
     }
-    console.log('from main bar: ', isCatDropDownDisabled, task)
-    
+
     return(
-        <div className="flex justify-between items-center gap-3 border-2 border-gray-200 w-8/12 p-6 rounded-md m-5 mx-auto">
+        <div className="flex justify-between items-center gap-3 border-2 border-gray-200 p-6 rounded-md mb-5 mx-auto">
             <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef} value={taskInputVal} isTaskInputDisabled={isTaskInputDisabled}/>
             <span className="flex items-center gap-3">
                 <Dropdown ref={categoryRef} options={toOptions(category)} currSelectedOptionId={task? ((task.categoryId == null) ? undefined : task.categoryId ): undefined} 
