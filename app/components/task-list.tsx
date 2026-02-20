@@ -43,7 +43,7 @@ export default function TaskList({taskList, category, day}: TaskListProps) {
                 </div>
                 <div className="flex items-center justify-center">
                     <div className="mx-2">
-                        Totals: {totalTime}
+                        Totals: <span className=" font-mono">{totalTime}</span>
                     </div>
                     <div className="mx-2">
                         

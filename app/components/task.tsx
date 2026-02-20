@@ -26,11 +26,11 @@ export default function Task({task, category}: PopupSectionProps) {
                 </span>
             </div>
             <div className="flex items-center justify-center">
-                <div className="mx-2">
+                <div className="mx-2 font-mono">
                     { formatDate(new Date(task.startTime)) + ' - ' + formatDate(new Date(task.endTime!)) }
                 </div>
                 <span className="border h-4 rounded-2xl border-gray-200 mx-2"></span>
-                <div className="mx-2">
+                <div className="mx-2 font-mono">
                     { `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}` }
                 </div>
                 <span className="border h-4 rounded-2xl border-gray-200 mx-2"></span>
