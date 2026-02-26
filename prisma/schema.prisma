@@ -10,9 +10,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
 }
-
+        
 
 model Task {
   id            Int       @id @default(autoincrement())
