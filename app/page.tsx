@@ -1,14 +1,19 @@
 'use server'
 
+import { redirect } from "next/navigation";
 import PopupSection from "./components/dashboard";
 import { CategoryType, TaskType } from "./lib/types";
+import { getServerSession } from "next-auth";
 
 export default async function Home() {
   const { tasks } = await getTasks();
   const { category } = await getCategory();
 
-  console.log("Task From Page: ", tasks);
-  console.log("Category From Page: ", category);
+  const session = await getServerSession();
+
+  if(!session?.user){
+    redirect('/api/auth/signin')
+  }
 
   return (
     <div className="">

@@ -29,7 +29,6 @@ export default function TaskList({taskList, category, day}: TaskListProps) {
         hours = Math.floor(totalTimeLocal / 3600); // 1
         minutes = Math.floor((totalTimeLocal % 3600) / 60); // 10
         currSeconds = Math.floor((totalTimeLocal % 3600) % 60); // 32
-        console.log( 'total Time: ' , totalTimeLocal );
         
         setTotalTime(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}`)
     },[taskList])
