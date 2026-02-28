@@ -19,7 +19,7 @@ interface TaskPopupProps {
 
 export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurrentTask, category}: TaskPopupProps) {
     const categoryRef = useRef<HTMLSpanElement>(null);
-    const taskRef = useRef<HTMLInputElement>(null);
+    const taskRef = useRef<HTMLTextAreaElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -79,16 +79,20 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
         setIsVisible(false);
     }
 
+    const handleClosePopUp = () => {
+        setIsVisible(false);
+    }
+
     return(
         <>
          {
             isVisible &&
             <div className="absolute w-screen h-screen bg-gray-600/50 z-50 top-0 left-0 right-0 bottom-0">
-                <div ref={modalRef} className="border-2 border-gray-200 w-5/12 p-5 absolute bg-white top-1/6 left-1/2 transform -translate-x-1/2 rounded-md">
+                <div ref={modalRef} className="border-2 border-gray-200 w-5/12 max-sm:w-11/12 p-5 absolute bg-white top-1/6 left-1/2 transform -translate-x-1/2 rounded-md">
                     <div className="flex justify-end mb-4">
-                        <X/>
+                        <X onClick={handleClosePopUp}/>
                     </div>
-                    <div className="flex justify-between gap-2">
+                    <div className="flex justify-between gap-2 max-sm:flex-col">
                         <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef}/>
                         <Dropdown ref={categoryRef} options={toOptions(category)}/>
                     </div>

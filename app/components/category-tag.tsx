@@ -38,7 +38,7 @@ export default function CategoryTag({ taskCategory, category }: CategoryTagProps
   const colors = tagColor[categoryObj.categoryColor];
 
   return (
-    <div className={`flex items-center justify-center ${colors.bg} rounded-sm pr-3 ml-8`}>
+    <div className={`flex items-center justify-center ${colors.bg} rounded-sm pr-3 ml-8 max-sm:ml-2`}>
       <Dot className={`relative bottom-px ${colors.dot}`} />
       <span className={`${colors.text} font-bold text-sm`}>
         {categoryObj.category}

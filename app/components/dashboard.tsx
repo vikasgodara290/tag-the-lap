@@ -45,12 +45,12 @@ export default function PopupSection({tasks, category}: PopupSectionProps){
             <div className="flex flex-1 overflow-hidden">
                 
                 {/* Sidebar */}
-                <div className="w-1/7 bg-gray-50 overflow-y-auto border-r-2 border-gray-200 z-50">
+                <div className="w-1/7 bg-gray-50 overflow-y-auto border-r-2 border-gray-200 z-50 max-sm:hidden">
                     <Sidebar />
                 </div>
 
                 {/* Main Content */}
-                <div className="flex-1 p-6 overflow-y-auto">
+                <div className="flex-1 max-sm:p-4 sm:p-6 overflow-y-auto">
                     <TaskPopup
                         currentTask={currentTask}
                         setCurrentTask={setCurrentTask}

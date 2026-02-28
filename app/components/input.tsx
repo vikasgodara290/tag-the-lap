@@ -2,13 +2,13 @@
 interface InputProps{
     className?: string,
     placeholder?: string,
-    ref : React.Ref<HTMLInputElement>,
+    ref : React.Ref<HTMLTextAreaElement>,
     value? : string | undefined 
     isTaskInputDisabled? : boolean
 }
 
 export default function Input({className, placeholder, ref, value, isTaskInputDisabled = false}:InputProps){
     return(
-        <input type="text" className={className} placeholder={placeholder} ref={ref} defaultValue={value} readOnly={isTaskInputDisabled}/>
+        <textarea className={`${className} sm:h-6 max-sm:text-center max-sm:w-full`} placeholder={placeholder} ref={ref} defaultValue={value} readOnly={isTaskInputDisabled}/>
     )
 }

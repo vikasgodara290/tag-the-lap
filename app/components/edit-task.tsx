@@ -8,7 +8,7 @@ interface EditIconProps {
     setIsCatDropDownDisabled : React.Dispatch<React.SetStateAction<boolean>>
     setCurrentTask : React.Dispatch<React.SetStateAction<TaskType | undefined>>
     catRef : React.RefObject<HTMLSpanElement | null>
-    taskRef : React.RefObject<HTMLInputElement | null>
+    taskRef : React.RefObject<HTMLTextAreaElement | null>
     currTask : TaskType | undefined
     setNotification:  React.Dispatch<React.SetStateAction<string>>,
     setIsTaskInputDisabled  : React.Dispatch<React.SetStateAction<boolean>>

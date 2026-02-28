@@ -41,8 +41,8 @@ export default function Dropdown({ref, options, currSelectedOptionId, isDisabled
     }
 
     return(
-        <div tabIndex={0} className={`${className}`} onBlur={handleBlur}>
-            <div className={`border-2 border-gray-200 rounded-md p-2 flex items-center justify-between w-36 hover:cursor-pointer`} onClick={handleClick}>
+        <div tabIndex={0} className={`${className} w-full relative`} onBlur={handleBlur}>
+            <div className={`border-2 border-gray-200 rounded-md p-2 flex items-center justify-between w-36 hover:cursor-pointer text-center max-sm:w-full`} onClick={handleClick}>
                 <span ref={ref} id={selectedOptionId.toString()}>
                     {selectedOptionId === 0? "Select" : options.find(option => option.id === selectedOptionId)?.option} 
                 </span>
@@ -52,7 +52,7 @@ export default function Dropdown({ref, options, currSelectedOptionId, isDisabled
             </div>
             {
                 isDropdownOpen &&
-                <div className="border-2 border-gray-200 mt-1 rounded-md absolute w-36 hover:cursor-pointer bg-white">
+                <div className="border-2 border-gray-200 mt-1 rounded-md absolute w-36 hover:cursor-pointer bg-white z-50 text-center max-sm:w-full">
                     {
                         options.map((value) => {
                             return (
