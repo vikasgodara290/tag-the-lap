@@ -3,35 +3,24 @@
 import MainBar from "./mainbar"
 import TaskList from "./task-list"
 import Notification from "./notification"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import TaskPopup from "./task-popup"
 import { CategoryType, TaskType } from "../lib/types"
-import { v4 as uuidv4 } from 'uuid';
 import Navbar from "./navbar"
 import Sidebar from "./sidebar"
 
 interface PopupSectionProps{
     tasks: TaskType[]
     category : CategoryType[]
+    noOfDays: number
 }
 
-export default function PopupSection({tasks, category}: PopupSectionProps){
+export default function PopupSection({tasks, category, noOfDays}: PopupSectionProps){
     const [notification, setNotification] = useState('');
     const [currentTask, setCurrentTask] = useState(tasks.find(value => value.endTime == null));
     const [isTaskModalVisible, setIsTaskModalVisible] = useState(false);
 
-    const noOfDays = 15;
-
-    const taskObj = getObjOfDates(noOfDays);
-    const dateArr = getArrayOfDates2(noOfDays);
-
-    for(let i = 0; i < dateArr.length; i++){
-        let yesterday = new Date(new Date(new Date().setDate(dateArr[i].getDate() + 1)).setHours(0,0,0,0));
-    
-        taskObj[dateArr[i].toLocaleDateString()] = tasks.filter(task => {
-            return (yesterday >= new Date (task.startTime)) && (new Date (task.startTime) >= dateArr[i]) && task.endTime != null
-        });
-    }
+    const taskObj = useMemo(() => getDateWiseTasks(noOfDays, tasks), [tasks, noOfDays]);
 
     return(
         <div className="h-screen flex flex-col">
@@ -72,7 +61,7 @@ export default function PopupSection({tasks, category}: PopupSectionProps){
                         category={category}
                     />
 
-                    {getArrayOfDates2(noOfDays).map(day =>
+                    {getArrayOfDates(noOfDays).map(day =>
                         taskObj[day.toLocaleDateString()]?.length > 0 && (
                         <TaskList
                             key={day.toLocaleDateString()}
@@ -98,11 +87,26 @@ function getObjOfDates(noOfDays : number){
     return arrOfDays;
 }
 
-function getArrayOfDates2(noOfDays : number){
+function getArrayOfDates(noOfDays : number){
     let arrOfDays : Date[] = [];
     for(let i = 0; i < noOfDays; i++){
         const day =new Date(new Date(new Date().setDate(new Date().getDate() - i)).setHours(0,0,0,0));
         arrOfDays.push(day);
     }
     return arrOfDays;
+}
+
+function getDateWiseTasks(noOfDays : number, tasks : TaskType[]) {
+    const taskObj = getObjOfDates(noOfDays);
+    const dateArr = getArrayOfDates(noOfDays);
+
+    for(let i = 0; i < dateArr.length; i++){
+        let yesterday = new Date(new Date(new Date().setDate(dateArr[i].getDate() + 1)).setHours(0,0,0,0));
+    
+        taskObj[dateArr[i].toLocaleDateString()] = tasks.filter(task => {
+            return (yesterday >= new Date (task.startTime)) && (new Date (task.startTime) >= dateArr[i]) && task.endTime != null
+        });
+    }
+
+    return taskObj;
 }

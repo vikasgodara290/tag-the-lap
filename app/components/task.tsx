@@ -2,12 +2,13 @@ import { Ellipsis } from "lucide-react";
 import CategoryTag from "./category-tag";
 import { CategoryType, TaskType } from "../lib/types";
 
-interface PopupSectionProps{
-    task: TaskType
-    category : CategoryType[]
-}
-
-export default function Task({task, category}: PopupSectionProps) {
+export default function Task({
+    task, 
+    category,
+}: {
+    task: TaskType,
+    category : CategoryType[],
+}) {
     let hours : number, minutes : number, currSeconds : number;
     const duration = (new Date(task.endTime!).getTime() - new Date(task.startTime).getTime()) / 1000;
 

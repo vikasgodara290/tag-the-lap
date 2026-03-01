@@ -41,7 +41,7 @@ export default function Dropdown({ref, options, currSelectedOptionId, isDisabled
     }
 
     return(
-        <div tabIndex={0} className={`${className} w-full relative`} onBlur={handleBlur}>
+        <div tabIndex={0} className={`${className} max-sm:w-full relative`} onBlur={handleBlur}>
             <div className={`border-2 border-gray-200 rounded-md p-2 flex items-center justify-between w-36 hover:cursor-pointer text-center max-sm:w-full`} onClick={handleClick}>
                 <span ref={ref} id={selectedOptionId.toString()}>
                     {selectedOptionId === 0? "Select" : options.find(option => option.id === selectedOptionId)?.option} 

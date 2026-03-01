@@ -6,7 +6,8 @@ import { CategoryType, TaskType } from "./lib/types";
 import { getServerSession } from "next-auth";
 
 export default async function Home() {
-  const { tasks } = await getTasks();
+  const noOfDays = 15;
+  const { tasks } = await getTasks(noOfDays);
   const { category } = await getCategory();
 
   const session = await getServerSession();
@@ -15,18 +16,21 @@ export default async function Home() {
     redirect('/api/auth/signin')
   }
 
+  console.log(session)
+
   return (
     <div className="">
       <PopupSection 
         tasks={tasks}
-        category={category}  
+        category={category}
+        noOfDays={noOfDays}  
       />
     </div>
   );
 }
 
-async function getTasks(): Promise<{tasks : TaskType[]}> {
-  const res = await fetch('http://localhost:3000/api/task?noOfDays=15', {
+async function getTasks(noOfDays : number): Promise<{tasks : TaskType[]}> {
+  const res = await fetch(`http://localhost:3000/api/task?noOfDays=${noOfDays}`, {
     cache: 'no-store',
   });
 

@@ -90,9 +90,9 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
             <div className="absolute w-screen h-screen bg-gray-600/50 z-50 top-0 left-0 right-0 bottom-0">
                 <div ref={modalRef} className="border-2 border-gray-200 w-5/12 max-sm:w-11/12 p-5 absolute bg-white top-1/6 left-1/2 transform -translate-x-1/2 rounded-md">
                     <div className="flex justify-end mb-4">
-                        <X onClick={handleClosePopUp}/>
+                        <X onClick={handleClosePopUp} className="hover:cursor-pointer"/>
                     </div>
-                    <div className="flex justify-between gap-2 max-sm:flex-col">
+                    <div className="flex justify-between sm:items-center gap-2 max-sm:flex-col">
                         <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef}/>
                         <Dropdown ref={categoryRef} options={toOptions(category)}/>
                     </div>
