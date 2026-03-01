@@ -39,9 +39,29 @@ const handler =  NextAuth({
     }),
     GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        
     })
-  ]
+  ],
+    callbacks: {
+    jwt: async (params) => {
+      const { token, user, trigger, account } = params;
+      console.log('from callback: ', params)
+      if (!token.email) {
+        return {};
+      }
+      if (user) {
+        token.user = user;
+      }
+
+      return token;
+    },
+    session: async ({ session, token }) => {
+      console.log(session, ' and token: ', token);
+      return session;
+    },
+  },
+  session: {strategy: 'jwt'}
 })
 
 export { handler as GET, handler as POST }
