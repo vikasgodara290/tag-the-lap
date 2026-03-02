@@ -40,13 +40,12 @@ const handler =  NextAuth({
     GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID!,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        
     })
   ],
-    callbacks: {
+  callbacks: {
     jwt: async (params) => {
-      const { token, user, trigger, account } = params;
-      console.log('from callback: ', params)
+      const { token, user} = params;
+      //console.log('from callback: ', params)
       if (!token.email) {
         return {};
       }
@@ -57,11 +56,15 @@ const handler =  NextAuth({
       return token;
     },
     session: async ({ session, token }) => {
-      console.log(session, ' and token: ', token);
+      // @ts-ignore
+      session.user = {id: token.sub, ...(token || session).user}
+      //console.log('from session: '+ session.user, ' and token: ', token);
+
       return session;
     },
   },
-  session: {strategy: 'jwt'}
+  session: {strategy: 'jwt'},
+  secret: process.env.NEXTAUTH_SECRET,
 })
 
 export { handler as GET, handler as POST }

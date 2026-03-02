@@ -16,7 +16,7 @@ export default async function Home() {
     redirect('/api/auth/signin')
   }
 
-  console.log(session)
+  console.log('from page: ', session.user)
 
   return (
     <div className="">
