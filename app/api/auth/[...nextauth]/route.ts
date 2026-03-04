@@ -1,8 +1,11 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
+import { prisma } from "@/app/lib/db";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 const handler =  NextAuth({
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
         // The name to display on the sign in form (e.g. 'Sign in with...')
