@@ -15,12 +15,15 @@ datasource db {
         
 model Task {
   id            Int       @id @default(autoincrement())
+  userId        String
   task          String  
   category      Category?  @relation(fields: [categoryId], references: [id])
   categoryId    Int?
   startTime     DateTime
   endTime       DateTime?
   createdAt     DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model RecordTime {
@@ -31,9 +34,12 @@ model RecordTime {
 
 model Category {
   id            Int        @id @default(autoincrement())
+  userId        String
   category      String     
   categoryColor String     
   task          Task[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -71,6 +77,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  task          Task[]
+  category      Category[]
 }
 
 model VerificationToken {

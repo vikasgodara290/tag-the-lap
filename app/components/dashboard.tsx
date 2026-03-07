@@ -8,6 +8,7 @@ import TaskPopup from "./task-popup"
 import { CategoryType, TaskType } from "../lib/types"
 import Navbar from "./navbar"
 import Sidebar from "./sidebar"
+import { SessionProvider } from "next-auth/react"
 
 interface PopupSectionProps{
     tasks: TaskType[]
@@ -23,57 +24,59 @@ export default function PopupSection({tasks, category, noOfDays}: PopupSectionPr
     const taskObj = useMemo(() => getDateWiseTasks(noOfDays, tasks), [tasks, noOfDays]);
 
     return(
-        <div className="h-screen flex flex-col">
-        
-            {/* Navbar */}
-            <div className="h-24">
-                <Navbar />
-            </div>
-
-            {/* Sidebar + Main Content */}
-            <div className="flex flex-1 overflow-hidden">
-                
-                {/* Sidebar */}
-                <div className="w-1/7 bg-gray-50 overflow-y-auto border-r-2 border-gray-200 z-50 max-sm:hidden">
-                    <Sidebar />
+        <SessionProvider>
+            <div className="h-screen flex flex-col">
+            
+                {/* Navbar */}
+                <div className="h-24">
+                    <Navbar />
                 </div>
 
-                {/* Main Content */}
-                <div className="flex-1 max-sm:p-4 sm:p-6 overflow-y-auto">
-                    <TaskPopup
-                        currentTask={currentTask}
-                        setCurrentTask={setCurrentTask}
-                        isVisible={isTaskModalVisible}
-                        setIsVisible={setIsTaskModalVisible}
-                        category={category}
-                    />
+                {/* Sidebar + Main Content */}
+                <div className="flex flex-1 overflow-hidden">
+                    
+                    {/* Sidebar */}
+                    <div className="w-1/7 bg-gray-50 overflow-y-auto border-r-2 border-gray-200 z-50 max-sm:hidden">
+                        <Sidebar />
+                    </div>
 
-                    <Notification 
-                        notification={notification} 
-                        setNotification={setNotification}
-                    />
-
-                    <MainBar 
-                        task={currentTask} 
-                        setCurrentTask={setCurrentTask}
-                        setNotification={setNotification} 
-                        setIsTaskModalVisible={setIsTaskModalVisible} 
-                        category={category}
-                    />
-
-                    {getArrayOfDates(noOfDays).map(day =>
-                        taskObj[day.toLocaleDateString()]?.length > 0 && (
-                        <TaskList
-                            key={day.toLocaleDateString()}
-                            taskList={taskObj[day.toLocaleDateString()]}
+                    {/* Main Content */}
+                    <div className="flex-1 max-sm:p-4 sm:p-6 overflow-y-auto">
+                        <TaskPopup
+                            currentTask={currentTask}
+                            setCurrentTask={setCurrentTask}
+                            isVisible={isTaskModalVisible}
+                            setIsVisible={setIsTaskModalVisible}
                             category={category}
-                            day={day.toDateString()}
                         />
-                        )
-                    )}
+
+                        <Notification 
+                            notification={notification} 
+                            setNotification={setNotification}
+                        />
+
+                        <MainBar 
+                            task={currentTask} 
+                            setCurrentTask={setCurrentTask}
+                            setNotification={setNotification} 
+                            setIsTaskModalVisible={setIsTaskModalVisible} 
+                            category={category}
+                        />
+
+                        {getArrayOfDates(noOfDays).map(day =>
+                            taskObj[day.toLocaleDateString()]?.length > 0 && (
+                            <TaskList
+                                key={day.toLocaleDateString()}
+                                taskList={taskObj[day.toLocaleDateString()]}
+                                category={category}
+                                day={day.toDateString()}
+                            />
+                            )
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </SessionProvider>
 
     )
 }

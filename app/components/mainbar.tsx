@@ -7,6 +7,9 @@ import EditIcon from "./edit-task";
 import axios from "axios";
 import { Ban, LucideProps, NotebookPen, Play, SquareCheckBig, Trash2 } from "lucide-react";
 import { CategoryType, TaskType } from "../lib/types";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../lib/auth";
+import { useSession } from "next-auth/react";
 
 interface MainbarProps{
     setNotification:  Dispatch<SetStateAction<string>>,
@@ -18,12 +21,22 @@ interface MainbarProps{
 
 export default function MainBar({setNotification, task, setIsTaskModalVisible, setCurrentTask, category}: MainbarProps){
     const [isStarted, setIsStarted] = useState<boolean>(!!task);
+    const [userId, setUserId] = useState<string | undefined>();
     const [taskInputVal, setTaskInputVal] = useState(task ? ((task.task == 'To Be Defined') ? undefined : task.task): undefined);
     const [isTaskInputDisabled, setIsTaskInputDisabled] = useState(task ? ((task.task == 'To Be Defined') ? false : true): false);
     const [isCatDropDownDisabled, setIsCatDropDownDisabled] = useState(task ? !(task.categoryId === null) : false);
     const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLTextAreaElement>(null);
     const btnRef = useRef<HTMLSpanElement>(null);
+    const session = useSession();
+    
+
+    useEffect(() => {
+        //console.log('session from mainbar: ', session)
+        if(session.status == "authenticated"){
+            setUserId(session.data?.user.id);
+        }
+    },[session])
 
     useEffect(() => {
         setTaskInputVal(task ? ((task.task == 'To Be Defined') ? undefined : task.task): undefined);
@@ -36,7 +49,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
         const categoryId = parseInt(categoryRef.current?.id.trim()!);
         const startTime = new Date().toISOString();
         const btnText = btnRef.current?.textContent.trim();
-
+        //console.log('session from mainbar: ', userId)
         if(!taskInput || taskInput === ''){
             setNotification('Please enter task first!');
             return;
@@ -53,7 +66,8 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
                 task: taskInput, 
                 categoryId, 
                 startTime,
-                endTime
+                endTime,
+                userId
             })
             setIsStarted(prev => !prev);
         }

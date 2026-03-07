@@ -7,6 +7,7 @@ import ButtonWithIcon from "./button-with-icon";
 import { X } from "lucide-react";
 import axios from "axios";
 import { CategoryType, TaskType } from "../lib/types";
+import { useSession } from "next-auth/react";
 
 interface TaskPopupProps {
   isVisible: boolean
@@ -21,6 +22,8 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
     const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLTextAreaElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
+    const [userId, setUserId] = useState<string | undefined>();
+    const session = useSession();
 
     useEffect(() => {
         taskRef.current?.focus();
@@ -32,6 +35,10 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
             if (!modalRef.current.contains(e.target as Node)) {
                 setIsVisible(false);
             }
+        }
+
+        if(session.status == "authenticated"){
+            setUserId(session.data?.user.id);
         }
 
         document.addEventListener("mousedown", handlePointerDown)
@@ -54,7 +61,8 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
             task: taskInput, 
             categoryId, 
             startTime : endTime,
-            endTime : null
+            endTime : null,
+            userId
         });
 
         setCurrentTask(res.data);
@@ -72,7 +80,8 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
             task: 'To Be Defined', 
             categoryId :  null, 
             startTime : endTime,
-            endTime : null
+            endTime : null,
+            userId
         });
 
         setCurrentTask(res.data);
