@@ -29,7 +29,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
     const taskRef = useRef<HTMLTextAreaElement>(null);
     const btnRef = useRef<HTMLSpanElement>(null);
     const session = useSession();
-    
+    const url = process.env.BASE_URL;
 
     useEffect(() => {
         //console.log('session from mainbar: ', session)
@@ -62,7 +62,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
 
         if(btnText == 'Start'){
             const endTime = null;
-            axios.post('http://localhost:3000/api/task',{
+            axios.post(`${url}/api/task`,{
                 task: taskInput, 
                 categoryId, 
                 startTime,
@@ -79,7 +79,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
                 setIsTaskModalVisible(true);
             }
             else{
-                axios.put('http://localhost:3000/api/task',{
+                axios.put(`${url}/api/task`,{
                     id : task?.id,
                     endTime
                 });
@@ -87,7 +87,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
             }
         }
         else if(btnText == 'Log the pending task'){
-            const res = await axios.put('http://localhost:3000/api/task',{
+            const res = await axios.put(`${url}/api/task`,{
                 id : task?.id,
                 task : taskInput,
                 categoryId

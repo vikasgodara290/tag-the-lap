@@ -29,7 +29,8 @@ export default async function Home() {
 }
 
 async function getTasks(noOfDays : number, userId : string): Promise<{tasks : TaskType[]}> {
-  const res = await fetch(`http://localhost:3000/api/task?noOfDays=${noOfDays}`, {
+  const url = process.env.BASE_URL;
+  const res = await fetch(`${url}/api/task?noOfDays=${noOfDays}`, {
     cache: 'no-store',
     headers: {
       "userId" : userId,
@@ -45,7 +46,8 @@ async function getTasks(noOfDays : number, userId : string): Promise<{tasks : Ta
 }
 
 async function getCategory(): Promise<{category : CategoryType[]}> {
-  const res = await fetch('http://localhost:3000/api/category', {
+  const url = process.env.BASE_URL;
+  const res = await fetch(`${url}/api/category`, {
     cache: 'no-store',
   });
 

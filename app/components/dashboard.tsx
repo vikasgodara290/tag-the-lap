@@ -23,7 +23,6 @@ export default function PopupSection({tasks, category, noOfDays}: PopupSectionPr
 
     const taskObj = useMemo(() => getDateWiseTasks(noOfDays, tasks), [tasks, noOfDays]);
 
-    console.log('from dashboard task: ', taskObj)
     return(
         <SessionProvider>
             <div className="h-screen flex flex-col">

@@ -24,6 +24,7 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
     const modalRef = useRef<HTMLDivElement>(null);
     const [userId, setUserId] = useState<string | undefined>();
     const session = useSession();
+    const url = process.env.BASE_URL;
 
     useEffect(() => {
         taskRef.current?.focus();
@@ -52,12 +53,12 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
         const categoryId = parseInt(categoryRef.current?.id.trim()!);
         
         const endTime = new Date().toISOString();
-        await axios.put('http://localhost:3000/api/task',{
+        await axios.put(`${url}/api/task`,{
             id : currentTask?.id,
             endTime
         });
         
-        const res = await axios.post('http://localhost:3000/api/task',{
+        const res = await axios.post(`${url}/api/task`,{
             task: taskInput, 
             categoryId, 
             startTime : endTime,
@@ -71,12 +72,12 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
 
     const handleBtnLogLater = async () => {
         const endTime = new Date().toISOString();
-        axios.put('http://localhost:3000/api/task',{
+        axios.put(`${url}/api/task`,{
             id : currentTask?.id,
             endTime : endTime
         });
 
-        const res = await axios.post('http://localhost:3000/api/task',{
+        const res = await axios.post(`${url}/api/task`,{
             task: 'To Be Defined', 
             categoryId :  null, 
             startTime : endTime,
