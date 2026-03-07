@@ -21,7 +21,6 @@ const redHatDisplay = Red_Hat_Display({
   subsets: ['latin']
 })
 
-console.log('from layout: ', inter)
 export const metadata: Metadata = {
   title: "Log The Day",
   description: "Help you track your entire day.",

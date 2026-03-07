@@ -10,16 +10,12 @@ export default async function Home() {
   const noOfDays = 15;
   const session = await getServerSession(authOptions)
   
-    if(!session?.user){
-      redirect('/api/auth/signin')
-    }
-  
-    console.log('from page session: ', session, session.expires)
+  if(!session?.user){
+    redirect('/api/auth/signin')
+  }
 
   const { tasks } = await getTasks(noOfDays, session.user.id);
   const { category } = await getCategory();
-
-  console.log('category: sdfsdfsdfsdf: ',category)
 
   return (
     <div className="">

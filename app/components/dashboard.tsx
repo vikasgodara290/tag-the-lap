@@ -23,6 +23,7 @@ export default function PopupSection({tasks, category, noOfDays}: PopupSectionPr
 
     const taskObj = useMemo(() => getDateWiseTasks(noOfDays, tasks), [tasks, noOfDays]);
 
+    console.log('from dashboard task: ', taskObj)
     return(
         <SessionProvider>
             <div className="h-screen flex flex-col">
@@ -92,8 +93,9 @@ function getObjOfDates(noOfDays : number){
 
 function getArrayOfDates(noOfDays : number){
     let arrOfDays : Date[] = [];
+    const today = new Date();
     for(let i = 0; i < noOfDays; i++){
-        const day =new Date(new Date(new Date().setDate(new Date().getDate() - i)).setHours(0,0,0,0));
+        const day =new Date(new Date(today.getFullYear(), today.getMonth(), today.getDate() - i).setHours(0,0,0,0));
         arrOfDays.push(day);
     }
     return arrOfDays;
@@ -104,8 +106,7 @@ function getDateWiseTasks(noOfDays : number, tasks : TaskType[]) {
     const dateArr = getArrayOfDates(noOfDays);
 
     for(let i = 0; i < dateArr.length; i++){
-        let yesterday = new Date(new Date(new Date().setDate(dateArr[i].getDate() + 1)).setHours(0,0,0,0));
-    
+        let yesterday = new Date(new Date(new Date(dateArr[i].getFullYear(), dateArr[i].getMonth(), dateArr[i].getDate() + 1)).setHours(0,0,0,0));
         taskObj[dateArr[i].toLocaleDateString()] = tasks.filter(task => {
             return (yesterday >= new Date (task.startTime)) && (new Date (task.startTime) >= dateArr[i]) && task.endTime != null
         });
