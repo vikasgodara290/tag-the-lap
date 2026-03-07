@@ -15,16 +15,22 @@ interface TaskPopupProps {
   currentTask : TaskType | undefined
   setCurrentTask : React.Dispatch<React.SetStateAction<TaskType | undefined>>
   category : CategoryType[]
+  setIsAddCatModalVisible: React.Dispatch<React.SetStateAction<boolean>>
+  isAddCatModalVisible:boolean
 }
 
 
-export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurrentTask, category}: TaskPopupProps) {
+export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurrentTask, category, setIsAddCatModalVisible, isAddCatModalVisible}: TaskPopupProps) {
     const categoryRef = useRef<HTMLSpanElement>(null);
     const taskRef = useRef<HTMLTextAreaElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
     const [userId, setUserId] = useState<string | undefined>();
     const session = useSession();
-    const url = process.env.BASE_URL;
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
+
+    useEffect(() => {
+        isAddCatModalVisible && setIsVisible(false);
+    },[isAddCatModalVisible])
 
     useEffect(() => {
         taskRef.current?.focus();
@@ -104,7 +110,7 @@ export default function TaskPopup({isVisible, setIsVisible, currentTask, setCurr
                     </div>
                     <div className="flex justify-between sm:items-center gap-2 max-sm:flex-col">
                         <Input className="flex-1 outline-0" placeholder="What are you working on..." ref={taskRef}/>
-                        <Dropdown ref={categoryRef} options={toOptions(category)}/>
+                        <Dropdown ref={categoryRef} options={toOptions(category)} setIsAddCatModalVisible={setIsAddCatModalVisible}  addMoreOption={true}/>
                     </div>
                     <div className="flex justify-center gap-4 mt-10">
                         <ButtonWithIcon innerText="Start" onclick={handleBtnTransfer} className="bg-linear-to-b from-violet-500 via-violet-600 to-violet-500 hover:via-violet-700 text-white px-6"/>

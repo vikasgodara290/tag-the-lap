@@ -9,6 +9,7 @@ import { CategoryType, TaskType } from "../lib/types"
 import Navbar from "./navbar"
 import Sidebar from "./sidebar"
 import { SessionProvider } from "next-auth/react"
+import AddCategory from "./add-category"
 
 interface PopupSectionProps{
     tasks: TaskType[]
@@ -20,6 +21,7 @@ export default function PopupSection({tasks, category, noOfDays}: PopupSectionPr
     const [notification, setNotification] = useState('');
     const [currentTask, setCurrentTask] = useState(tasks.find(value => value.endTime == null));
     const [isTaskModalVisible, setIsTaskModalVisible] = useState(false);
+    const [isAddCatModalVisible, setIsAddCatModalVisible] = useState(false);
 
     const taskObj = useMemo(() => getDateWiseTasks(noOfDays, tasks), [tasks, noOfDays]);
 
@@ -48,6 +50,13 @@ export default function PopupSection({tasks, category, noOfDays}: PopupSectionPr
                             isVisible={isTaskModalVisible}
                             setIsVisible={setIsTaskModalVisible}
                             category={category}
+                            setIsAddCatModalVisible={setIsAddCatModalVisible}
+                            isAddCatModalVisible={isAddCatModalVisible}
+                        />
+
+                        <AddCategory
+                            isVisible={isAddCatModalVisible}
+                            setIsVisible={setIsAddCatModalVisible}
                         />
 
                         <Notification 
@@ -61,6 +70,7 @@ export default function PopupSection({tasks, category, noOfDays}: PopupSectionPr
                             setNotification={setNotification} 
                             setIsTaskModalVisible={setIsTaskModalVisible} 
                             category={category}
+                            setIsAddCatModalVisible={setIsAddCatModalVisible}
                         />
 
                         {getArrayOfDates(noOfDays).map(day =>

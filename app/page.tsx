@@ -29,7 +29,7 @@ export default async function Home() {
 }
 
 async function getTasks(noOfDays : number, userId : string): Promise<{tasks : TaskType[]}> {
-  const url = process.env.BASE_URL;
+  const url = process.env.NEXT_PUBLIC_BASE_URL;
   const res = await fetch(`${url}/api/task?noOfDays=${noOfDays}`, {
     cache: 'no-store',
     headers: {
@@ -46,7 +46,7 @@ async function getTasks(noOfDays : number, userId : string): Promise<{tasks : Ta
 }
 
 async function getCategory(): Promise<{category : CategoryType[]}> {
-  const url = process.env.BASE_URL;
+  const url = process.env.NEXT_PUBLIC_BASE_URL;
   const res = await fetch(`${url}/api/category`, {
     cache: 'no-store',
   });

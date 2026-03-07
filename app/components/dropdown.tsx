@@ -13,9 +13,11 @@ interface DropdownProps{
     currSelectedOptionId?: number | undefined,
     isDisabled?: boolean,
     className?: string
+    setIsAddCatModalVisible?: React.Dispatch<React.SetStateAction<boolean>>
+    addMoreOption?: boolean
 }
 
-export default function Dropdown({ref, options, currSelectedOptionId, isDisabled = false, className}: DropdownProps){
+export default function Dropdown({ref, options, currSelectedOptionId, isDisabled = false, className, setIsAddCatModalVisible, addMoreOption = false}: DropdownProps){
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedOptionId, setSelectedOptionId] = useState(currSelectedOptionId ? currSelectedOptionId : 0);
 
@@ -40,6 +42,11 @@ export default function Dropdown({ref, options, currSelectedOptionId, isDisabled
         setSelectedOptionId(parseInt(selectedOption));
     }
 
+    const handleAddCategory = () => {
+        setIsAddCatModalVisible && setIsAddCatModalVisible(true);
+        setIsDropdownOpen(false);
+    }
+
     return(
         <div tabIndex={0} className={`${className} max-sm:w-full relative`} onBlur={handleBlur}>
             <div className={`border-2 border-gray-200 rounded-md p-2 flex items-center justify-between w-36 hover:cursor-pointer text-center max-sm:w-full`} onClick={handleClick}>
@@ -59,6 +66,10 @@ export default function Dropdown({ref, options, currSelectedOptionId, isDisabled
                                 <div id={value.id.toString()} key={value.id} className="rounded-md p-2 hover:bg-gray-100 hover:text-black" onClick={e => handleSelectClick(e)}>{value.option}</div>
                             )
                         })
+                    }
+                    {
+                        addMoreOption &&
+                        <div key={1212} className="rounded-md p-2 hover:bg-gray-100 hover:text-black" onClick={handleAddCategory}>+ Add Category</div>
                     }
                 </div>
             }

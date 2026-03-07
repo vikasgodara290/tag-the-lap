@@ -17,9 +17,10 @@ interface MainbarProps{
     setIsTaskModalVisible: React.Dispatch<React.SetStateAction<boolean>>
     setCurrentTask : React.Dispatch<React.SetStateAction<TaskType | undefined>>
     category: CategoryType[]
+    setIsAddCatModalVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function MainBar({setNotification, task, setIsTaskModalVisible, setCurrentTask, category}: MainbarProps){
+export default function MainBar({setNotification, task, setIsTaskModalVisible, setCurrentTask, category, setIsAddCatModalVisible}: MainbarProps){
     const [isStarted, setIsStarted] = useState<boolean>(!!task);
     const [userId, setUserId] = useState<string | undefined>();
     const [taskInputVal, setTaskInputVal] = useState(task ? ((task.task == 'To Be Defined') ? undefined : task.task): undefined);
@@ -29,7 +30,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
     const taskRef = useRef<HTMLTextAreaElement>(null);
     const btnRef = useRef<HTMLSpanElement>(null);
     const session = useSession();
-    const url = process.env.BASE_URL;
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
 
     useEffect(() => {
         //console.log('session from mainbar: ', session)
@@ -118,7 +119,7 @@ export default function MainBar({setNotification, task, setIsTaskModalVisible, s
 
             <span className="flex items-center gap-3 max-sm:flex-col max-sm:w-full">
                 <Dropdown ref={categoryRef} options={toOptions(category)} currSelectedOptionId={task? ((task.categoryId == null) ? undefined : task.categoryId ): undefined} 
-                isDisabled={isCatDropDownDisabled} className="text-gray-700"/>
+                isDisabled={isCatDropDownDisabled} className="text-gray-700" setIsAddCatModalVisible={setIsAddCatModalVisible} addMoreOption={true}/>
                 
                 <span className="border sm:h-4 max-sm:w-1/9 rounded-2xl border-gray-200 mx-2"></span>
 
