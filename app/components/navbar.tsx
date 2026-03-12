@@ -1,12 +1,12 @@
-import Profile from "./profile";
+import Profile from './profile';
 
-export default function Navbar(){
-    return(
-        <div className="flex justify-between max-sm:justify-end items-center w-screen h-24 border-b-2 border-gray-200">
-            <div className="w-1/7 h-full bg-gray-50 border-r-2 border-gray-200 max-sm:hidden"></div>
-            <div className="">
-                <Profile/>
-            </div>
-        </div>
-    )
+export default function Navbar() {
+  return (
+    <div className="flex h-24 w-screen items-center justify-between border-b-2 border-gray-200 max-sm:justify-end">
+      <div className="h-full w-1/7 border-r-2 border-gray-200 bg-gray-50 max-sm:hidden"></div>
+      <div className="">
+        <Profile />
+      </div>
+    </div>
+  );
 }

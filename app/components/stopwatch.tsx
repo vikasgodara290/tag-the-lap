@@ -1,45 +1,45 @@
-'use client'
+'use client';
 
-import { Clock9 } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Clock9 } from 'lucide-react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-interface StopwatchProps{
-    isStarted: boolean,
-    currentSeconds: number
+interface StopwatchProps {
+  isStarted: boolean;
+  currentSeconds: number;
 }
 
-export default function Stopwatch({isStarted, currentSeconds}: StopwatchProps) {
-    const [seconds, setSeconds] = useState(currentSeconds ? currentSeconds : 0);
+export default function Stopwatch({ isStarted, currentSeconds }: StopwatchProps) {
+  const [seconds, setSeconds] = useState(currentSeconds ? currentSeconds : 0);
 
-    useEffect(() => {
-        setSeconds(currentSeconds)
-    }, [currentSeconds]);
+  useEffect(() => {
+    setSeconds(currentSeconds);
+  }, [currentSeconds]);
 
-    useEffect(() =>{
-        if(!isStarted) {
-            setSeconds(0);
-            return;
-        }
+  useEffect(() => {
+    if (!isStarted) {
+      setSeconds(0);
+      return;
+    }
 
-        const timeInterval = setInterval(() => {
-            setSeconds(prev => prev + 1);
-        }, 1000);
-        
-        return () => {
-            clearInterval(timeInterval);
-        } 
-    },[isStarted]);
-    
-    let hours = Math.floor((seconds / 3600) % 24);
-    let minutes = Math.floor((seconds / 60) % 60);
-    let currSeconds = seconds % 60;
+    const timeInterval = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
 
-    return(
-        <div className="flex items-center justify-center gap-2 font-mono">
-            <Clock9 size={18} className="relative bottom-[0.5px]"/>
-            <span className="select-none" suppressHydrationWarning>
-                { `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}` }
-            </span>
-        </div>
-    )
+    return () => {
+      clearInterval(timeInterval);
+    };
+  }, [isStarted]);
+
+  let hours = Math.floor((seconds / 3600) % 24);
+  let minutes = Math.floor((seconds / 60) % 60);
+  let currSeconds = seconds % 60;
+
+  return (
+    <div className="flex items-center justify-center gap-2 font-mono">
+      <Clock9 size={18} className="relative bottom-[0.5px]" />
+      <span className="select-none" suppressHydrationWarning>
+        {`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${currSeconds.toString().padStart(2, '0')}`}
+      </span>
+    </div>
+  );
 }

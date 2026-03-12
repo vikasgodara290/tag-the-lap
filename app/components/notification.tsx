@@ -1,32 +1,21 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+export default function Notification({ notification, setNotification }: { notification: string; setNotification: Dispatch<SetStateAction<string>> }) {
+  const [isVisible, setIsVisible] = useState(false);
 
+  useEffect(() => {
+    if (notification == '') return;
 
-export default function Notification({notification, setNotification}: {notification : string, setNotification:  Dispatch<SetStateAction<string>>}) {
-    const [isVisible, setIsVisible] = useState(false);
+    setIsVisible(true);
+    const timeout = setTimeout(() => {
+      setIsVisible(false);
+      setNotification('');
+    }, 2000);
 
-    useEffect(()=> {
-        if(notification == '') return;
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [notification]);
 
-        setIsVisible(true);
-        const timeout = setTimeout(()=> {
-            setIsVisible(false);
-            setNotification('');
-        },2000);
-
-        return () => {
-            clearTimeout(timeout);
-        }
-    },[notification])
-
-    return(
-        <>
-        {
-            isVisible &&
-            <div className="bg-red-800 text-white absolute rounded-sm p-3 m-2">
-                {notification}
-            </div>
-        }
-        </>
-    )
+  return <>{isVisible && <div className="absolute m-2 rounded-sm bg-red-800 p-3 text-white">{notification}</div>}</>;
 }

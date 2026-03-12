@@ -1,17 +1,17 @@
-'use server'
+'use server';
 
-import { authOptions } from "./lib/auth";
-import { redirect } from "next/navigation";
-import PopupSection from "./components/dashboard";
-import { CategoryType, TaskType } from "./lib/types";
-import { getServerSession } from "next-auth";
+import { authOptions } from './lib/auth';
+import { redirect } from 'next/navigation';
+import PopupSection from './components/dashboard';
+import { CategoryType, TaskType } from './lib/types';
+import { getServerSession } from 'next-auth';
 
 export default async function Home() {
   const noOfDays = 15;
-  const session = await getServerSession(authOptions)
-  
-  if(!session?.user){
-    redirect('/api/auth/signin')
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    redirect('/api/auth/signin');
   }
 
   const { tasks } = await getTasks(noOfDays, session.user.id);
@@ -19,23 +19,19 @@ export default async function Home() {
 
   return (
     <div className="">
-      <PopupSection 
-        tasks={tasks}
-        category={category}
-        noOfDays={noOfDays}  
-      />
+      <PopupSection tasks={tasks} category={category} noOfDays={noOfDays} />
     </div>
   );
 }
 
-async function getTasks(noOfDays : number, userId : string): Promise<{tasks : TaskType[]}> {
+async function getTasks(noOfDays: number, userId: string): Promise<{ tasks: TaskType[] }> {
   const url = process.env.NEXT_PUBLIC_BASE_URL;
   const res = await fetch(`${url}/api/task?noOfDays=${noOfDays}`, {
     cache: 'no-store',
     headers: {
-      "userId" : userId,
-      "noOfDays" : noOfDays.toString()
-    }
+      userId: userId,
+      noOfDays: noOfDays.toString(),
+    },
   });
 
   if (!res.ok) {
@@ -45,7 +41,7 @@ async function getTasks(noOfDays : number, userId : string): Promise<{tasks : Ta
   return res.json();
 }
 
-async function getCategory(): Promise<{category : CategoryType[]}> {
+async function getCategory(): Promise<{ category: CategoryType[] }> {
   const url = process.env.NEXT_PUBLIC_BASE_URL;
   const res = await fetch(`${url}/api/category`, {
     cache: 'no-store',

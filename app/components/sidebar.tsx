@@ -1,8 +1,3 @@
-
-export default function Sidebar(){
-    return(
-        <div className="">
-            
-        </div>
-    )
+export default function Sidebar() {
+  return <div className=""></div>;
 }
