@@ -30,8 +30,9 @@ export default function MainBar({ setNotification, task, setIsTaskModalVisible, 
   const session = useSession();
   const url = process.env.NEXT_PUBLIC_BASE_URL;
 
+  console.log('from mainbar task: ', task);
+
   useEffect(() => {
-    //console.log('session from mainbar: ', session)
     if (session.status == 'authenticated') {
       setUserId(session.data?.user.id);
     }
@@ -48,7 +49,6 @@ export default function MainBar({ setNotification, task, setIsTaskModalVisible, 
     const categoryId = parseInt(categoryRef.current?.id.trim()!);
     const startTime = new Date().toISOString();
     const btnText = btnRef.current?.textContent.trim();
-    //console.log('session from mainbar: ', userId)
     if (!taskInput || taskInput === '') {
       setNotification('Please enter task first!');
       return;
@@ -113,7 +113,7 @@ export default function MainBar({ setNotification, task, setIsTaskModalVisible, 
         className="flex-1 outline-0"
         placeholder="What are you working on..."
         ref={taskRef}
-        value={taskInputVal}
+        value={task?.task}
         isTaskInputDisabled={isTaskInputDisabled}
       />
 

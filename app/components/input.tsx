@@ -14,7 +14,7 @@ export default function Input({ className, placeholder, ref, value, isTaskInputD
       className={`${className} resize-none max-sm:w-full max-sm:text-center sm:h-6`}
       placeholder={placeholder}
       ref={ref}
-      defaultValue={value}
+      value={value}
       readOnly={isTaskInputDisabled}
     />
   );
